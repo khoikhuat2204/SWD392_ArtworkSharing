@@ -13,12 +13,12 @@ namespace Repository.Repos
     {
         public User GetByEmail(string email)
         {
-            throw new NotImplementedException();
+            return (User)GetAll().Where(user => user.Email.Equals(email));
         }
 
         public User GetById(int id)
         {
-            throw new NotImplementedException();
+            return (User)GetAll().Where(user => user.Id.Equals(id));
         }
     }
 }

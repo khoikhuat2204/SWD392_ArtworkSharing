@@ -75,3 +75,8 @@ D:\FPT\SWD392\project\SWD392\SWD392\obj\Debug\net6.0\SWD392.pdb
 D:\FPT\SWD392\project\SWD392\SWD392\obj\Debug\net6.0\SWD392.genruntimeconfig.cache
 D:\FPT\SWD392\project\SWD392\SWD392\obj\Debug\net6.0\ref\SWD392.dll
 D:\FPT\SWD392\project\SWD392\SWD392\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
+D:\FPT\SWD392\project\SWD392\SWD392\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\FPT\SWD392\project\SWD392\SWD392\bin\Debug\net6.0\Repository.dll
+D:\FPT\SWD392\project\SWD392\SWD392\bin\Debug\net6.0\Services.dll
+D:\FPT\SWD392\project\SWD392\SWD392\bin\Debug\net6.0\Services.pdb
+D:\FPT\SWD392\project\SWD392\SWD392\bin\Debug\net6.0\Repository.pdb
