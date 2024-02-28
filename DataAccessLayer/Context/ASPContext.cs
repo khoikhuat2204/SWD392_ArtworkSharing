@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,25 @@ namespace DataAccessLayer.Context
 
         public ASPContext(DbContextOptions<ASPContext> options) : base(options)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(GetConnectionString());
+            }
+        }
+
+        private string GetConnectionString()
+        {
+            IConfiguration config = new ConfigurationBuilder()
+                 .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json", true, true)
+                        .Build();
+            var strConn = config["ConnectionStrings:ASPDB"];
+
+            return strConn;
         }
 
         public DbSet<User>? Users { get; set; }
