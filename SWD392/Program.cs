@@ -13,8 +13,22 @@ builder.Services.AddDbContext<ASPContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ASPDB")));
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<ITagRepository, TagRepository>();
+builder.Services.AddTransient<IReservationRepository, ReservationRepository>();
+builder.Services.AddTransient<IReportRepository, ReportRepository>();
+builder.Services.AddTransient<IReportCauseRepository, ReportCauseRepository>();
+builder.Services.AddTransient<IRatingRepository, RatingRepository>();
+builder.Services.AddTransient<IPackageRepository, PackageRepository>();
+builder.Services.AddTransient<IArtworkTypeRepository, ArtworkTypeRepository>();
+builder.Services.AddTransient<IArtworkRepository, ArtworkRepository>();
+builder.Services.AddTransient<IActiveSubscriptionRepository, ActiveSubscriptionRepository>();
 
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IReservationService, ReservationService>();
+builder.Services.AddTransient<IReportService, ReportService>();
+builder.Services.AddTransient<IRatingService, RatingService>();
+builder.Services.AddTransient<IPackageService, PackageService>();
+builder.Services.AddTransient<IArtworkService, ArtworkService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

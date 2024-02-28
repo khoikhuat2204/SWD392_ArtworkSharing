@@ -41,7 +41,7 @@ namespace DataAccessLayer.Models
         [JsonIgnore]
         public ICollection<Artwork>? Artworks { get; set; }
         [JsonIgnore]
-        public ICollection<Package>? Packages { get; set; }
+        public ICollection<ActiveSubscription>? ActiveSubscriptions { get; set; }
     }
 
 }

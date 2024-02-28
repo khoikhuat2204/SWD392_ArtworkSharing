@@ -37,6 +37,36 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("ArtworkTag");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.ActiveSubscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("active_subscription_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PackageId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PackageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ActiveSubscription");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Artwork", b =>
                 {
                     b.Property<int>("Id")
@@ -281,19 +311,26 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
@@ -303,21 +340,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("PackageUser", b =>
-                {
-                    b.Property<int>("PackagesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PackagesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("PackageUser");
                 });
 
             modelBuilder.Entity("ArtworkTag", b =>
@@ -333,6 +355,25 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.ActiveSubscription", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Package", "Package")
+                        .WithMany("ActiveSubscriptions")
+                        .HasForeignKey("PackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.User", "User")
+                        .WithMany("ActiveSubscriptions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Package");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Artwork", b =>
@@ -424,21 +465,6 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("PackageUser", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.Package", null)
-                        .WithMany()
-                        .HasForeignKey("PackagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DataAccessLayer.Models.Artwork", b =>
                 {
                     b.Navigation("Ratings");
@@ -453,6 +479,11 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Artworks");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Package", b =>
+                {
+                    b.Navigation("ActiveSubscriptions");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.ReportCause", b =>
                 {
                     b.Navigation("Reports");
@@ -460,6 +491,8 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
                 {
+                    b.Navigation("ActiveSubscriptions");
+
                     b.Navigation("Artists");
 
                     b.Navigation("Artworks");

@@ -85,12 +85,13 @@ namespace DataAccessLayer.Migrations
                 {
                     user_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -101,6 +102,34 @@ namespace DataAccessLayer.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "user_Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ActiveSubscription",
+                columns: table => new
+                {
+                    active_subscription_id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    PackageId = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActiveSubscription", x => x.active_subscription_id);
+                    table.ForeignKey(
+                        name: "FK_ActiveSubscription_Packages_PackageId",
+                        column: x => x.PackageId,
+                        principalTable: "Packages",
+                        principalColumn: "package_Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ActiveSubscription_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "user_Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -129,30 +158,6 @@ namespace DataAccessLayer.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "user_Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PackageUser",
-                columns: table => new
-                {
-                    PackagesId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PackageUser", x => new { x.PackagesId, x.UsersId });
-                    table.ForeignKey(
-                        name: "FK_PackageUser_Packages_PackagesId",
-                        column: x => x.PackagesId,
-                        principalTable: "Packages",
-                        principalColumn: "package_Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PackageUser_Users_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "Users",
-                        principalColumn: "user_Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -268,6 +273,16 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ActiveSubscription_PackageId",
+                table: "ActiveSubscription",
+                column: "PackageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActiveSubscription_UserId",
+                table: "ActiveSubscription",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Artworks_ArtworkTypeId",
                 table: "Artworks",
                 column: "ArtworkTypeId");
@@ -281,11 +296,6 @@ namespace DataAccessLayer.Migrations
                 name: "IX_ArtworkTag_TagsId",
                 table: "ArtworkTag",
                 column: "TagsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PackageUser_UsersId",
-                table: "PackageUser",
-                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_ArtworkId",
@@ -331,13 +341,13 @@ namespace DataAccessLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ActiveSubscription");
+
+            migrationBuilder.DropTable(
                 name: "ArtworkStatuses");
 
             migrationBuilder.DropTable(
                 name: "ArtworkTag");
-
-            migrationBuilder.DropTable(
-                name: "PackageUser");
 
             migrationBuilder.DropTable(
                 name: "Ratings");
@@ -349,10 +359,10 @@ namespace DataAccessLayer.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "Packages");
 
             migrationBuilder.DropTable(
-                name: "Packages");
+                name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "ReportCauses");

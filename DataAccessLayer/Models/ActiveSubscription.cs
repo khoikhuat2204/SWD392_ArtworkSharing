@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
-    public class Package
+    public class ActiveSubscription
     {
         [Key]
-        [Column("package_Id")]
+        [Column("active_subscription_id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string? Name { get; set; }
-        public decimal Price { get; set; }
-        public bool IsDeleted { get; set; }
+        public int UserId { get; set; }
+        public int PackageId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
-        public ICollection<ActiveSubscription>? ActiveSubscriptions { get; set; }
+        public User? User { get; set; }
+        public Package? Package { get; set; }
     }
 }
