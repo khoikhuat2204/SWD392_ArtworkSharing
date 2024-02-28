@@ -11,14 +11,14 @@ namespace Repository.Repos
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public User GetByEmail(string email)
+        public User? GetByEmail(string email)
         {
-            return (User)GetAll().Where(user => user.Email.Equals(email));
+            return GetAll().ToList().Find(user => user.Email == email);
         }
 
-        public User GetById(int id)
+        public User? GetById(int id)
         {
-            return (User)GetAll().Where(user => user.Id.Equals(id));
+            return GetAll().ToList().Find(user => user.Id == id);
         }
     }
 }

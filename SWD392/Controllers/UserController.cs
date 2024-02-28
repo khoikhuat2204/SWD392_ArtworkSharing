@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interface;
 using Services.RequestDTO;
+using Services.ResponseDTO;
 
 namespace SWD392.Controllers
 {
@@ -18,19 +19,25 @@ namespace SWD392.Controllers
         [HttpPost("login")]
         public IActionResult login([FromBody] LoginRegisterDTO dto)
         {
-            return StatusCode(418, "ha ha error fix it.");
-        }        
-        
+            ResponseDTO<string> res = userService.Login(dto);
+            if (res.statusCode == 200)
+            {
+                return Ok(res.message);
+            }
+            return StatusCode(res.statusCode, res.message);
+
+        }
+
         [HttpPost("register")]
         public IActionResult register([FromBody] LoginRegisterDTO dto)
         {
-            bool newUserCreated = userService.Register(dto);
-            if(newUserCreated)
+            ResponseDTO<string> res = userService.Register(dto);
+            if (res.statusCode == 200)
             {
-                return Ok($"add user with email {dto.Email}");
+                return Ok(res.message);
             }
 
-            return StatusCode(418, "ha ha error fix it.");
+            return StatusCode(res.statusCode, res.message);
         }
     }
 }

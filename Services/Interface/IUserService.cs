@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Models;
 using Services.RequestDTO;
+using Services.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace Services.Interface
 {
     public interface IUserService
     {
-        bool Register(LoginRegisterDTO dto);
+        ResponseDTO<string> Register(LoginRegisterDTO dto);
+
+        ResponseDTO<string> Login(LoginRegisterDTO dto);
     }
 }
