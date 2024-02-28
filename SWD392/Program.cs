@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using ConfigurationManager = SWD392.WebAPI.ConfigurationManager;
+using Repository.Interface;
+using Repository.Repos;
+using Services.Interface;
+using Services.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,21 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ASPContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ASPDB")));
 
-builder.Services.AddAuthentication(opt => {
-    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options => {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = ConfigurationManager.AppSetting["jwt:issuer"],
-        ValidAudience = ConfigurationManager.AppSetting["jwt:audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationManager.AppSetting["jwt:secret"]))
-    };
-});
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+
+builder.Services.AddTransient<IUserService, UserService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

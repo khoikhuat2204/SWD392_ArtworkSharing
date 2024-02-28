@@ -1704,6 +1704,32 @@
         "runtime": {
           "bin/placeholder/DataAccessLayer.dll": {}
         }
+      },
+      "Repository/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "DataAccessLayer": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Repository.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Repository.dll": {}
+        }
+      },
+      "Services/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Repository": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Services.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Services.dll": {}
+        }
       }
     }
   },
@@ -4369,11 +4395,20 @@
       "type": "project",
       "path": "../DataAccessLayer/DataAccessLayer.csproj",
       "msbuildProject": "../DataAccessLayer/DataAccessLayer.csproj"
+    },
+    "Repository/1.0.0": {
+      "type": "project",
+      "path": "../Repository/Repository.csproj",
+      "msbuildProject": "../Repository/Repository.csproj"
+    },
+    "Services/1.0.0": {
+      "type": "project",
+      "path": "../Services/Services.csproj",
+      "msbuildProject": "../Services/Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "DataAccessLayer >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.18",
       "Microsoft.AspNetCore.Identity >= 2.2.0",
       "Microsoft.Data.SqlClient >= 5.1.1",
@@ -4381,6 +4416,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.18",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.18",
       "Microsoft.Extensions.Configuration.Json >= 6.0.0",
+      "Services >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
   },
@@ -4411,8 +4447,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FPT\\SWD392\\project\\SWD392\\DataAccessLayer\\DataAccessLayer.csproj": {
-              "projectPath": "D:\\FPT\\SWD392\\project\\SWD392\\DataAccessLayer\\DataAccessLayer.csproj"
+            "D:\\FPT\\SWD392\\project\\SWD392\\Services\\Services.csproj": {
+              "projectPath": "D:\\FPT\\SWD392\\project\\SWD392\\Services\\Services.csproj"
             }
           }
         }
