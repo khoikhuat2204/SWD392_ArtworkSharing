@@ -31,15 +31,20 @@ namespace Repository.BaseRepository
             _context.SaveChanges();
         }
 
-        public virtual List<T> GetAll()
+        public virtual IQueryable<T> GetAll()
         {
-            return _dbSet.ToList();
+            return _dbSet;
         }
 
         public void Update(T entity)
         {
             _dbSet.Update(entity);
             _context.SaveChanges();
+        }
+
+        public ASPContext GetContext()
+        {
+            return _context;
         }
     }
 }

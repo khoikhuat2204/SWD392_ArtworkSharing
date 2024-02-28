@@ -10,5 +10,7 @@ namespace Repository.Interface
 {
     public interface IUserRepository : IBaseRepository<User>
     {
+        User GetById(int id);
+        User GetByEmail(string email);
     }
 }

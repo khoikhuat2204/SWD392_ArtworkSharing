@@ -8,7 +8,7 @@ namespace Repository.BaseRepository
 {
     public interface IBaseRepository<T>
     {
-        List<T> GetAll();
+        IQueryable<T> GetAll();
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);

@@ -11,5 +11,14 @@ namespace Repository.Repos
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
+        public User GetByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
