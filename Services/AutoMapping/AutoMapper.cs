@@ -9,10 +9,16 @@ public class AutoMapper: Profile
     public AutoMapper()
     {
         MapArtwork();
+        MapAccount();
     }
 
     private void MapArtwork()
     {
         CreateMap<Artwork, UploadArtworkDTO>().ReverseMap();
+    }
+
+    private void MapAccount()
+    {
+        CreateMap<User, LoginDTO>().ReverseMap();
     }
 }

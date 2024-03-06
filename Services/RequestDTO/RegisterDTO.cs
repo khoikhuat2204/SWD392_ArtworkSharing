@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.RequestDTO
 {
-    public class LoginRegisterDTO
+    public class RegisterDTO
     {
         public string? Email { get; set; }
         public string? FullName { get; set; }
