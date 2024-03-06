@@ -26,9 +26,9 @@ namespace Services.Services
             _reservationRepository.Add(reservation);
         }
 
-        public void Update(Reservation reservationt)
+        public void Update(Reservation reservation)
         {
-            _reservationRepository.Update(reservationt);
+            _reservationRepository.Update(reservation);
         }
 
         public void Remove(Reservation reservation)
