@@ -1,13 +1,12 @@
 ﻿using DataAccessLayer.Models;
 using Repository.Interface;
 using Services.Interface;
-using Services.RequestDTO;
-using Services.ResponseDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLayer.DTOs.RequestDTO;
 using Services.Extensions;
 
 namespace Services.Services

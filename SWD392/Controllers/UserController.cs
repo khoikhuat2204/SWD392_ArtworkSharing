@@ -1,10 +1,9 @@
-﻿using DataAccessLayer.Enum;
+﻿using DataAccessLayer.DTOs.RequestDTO;
+using DataAccessLayer.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Extensions;
 using Services.Interface;
-using Services.RequestDTO;
-using Services.ResponseDTO;
 
 namespace SWD392.Controllers
 {
