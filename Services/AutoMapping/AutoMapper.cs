@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using DataAccessLayer.DTOs.RequestDTO;
 using DataAccessLayer.Models;
-using Services.RequestDTO;
 
 namespace Services.AutoMapping;
 
