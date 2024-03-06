@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer.Enum;
 using DataAccessLayer.Models;
 
-namespace Services.RequestDTO;
+namespace DataAccessLayer.DTOs.RequestDTO;
 
 public class UploadArtworkDTO
 {
