@@ -8,19 +8,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Services.Extensions;
 
 namespace Services.Services
 {
     public class UserService : IUserService
     {
-        readonly IUserRepository userRepository;
+        private readonly IUserRepository userRepository;
+        private readonly TokenService _tokenService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, TokenService tokenService)
         {
             this.userRepository = userRepository;
+            _tokenService = tokenService;
         }
 
-        public ResponseDTO<string> Login(LoginRegisterDTO dto)
+        public ResponseDTO<string> Login(LoginDTO dto)
         {
             User? existedUser = userRepository.GetByEmail(dto.Email);
             if (existedUser == null)
@@ -28,25 +31,26 @@ namespace Services.Services
                 return new ResponseDTO<string>
                 {
                     statusCode = 400,
-                    message = "wrong username or password"
+                    message = "Wrong username or password"
                 };
             }
             if (existedUser.Password == dto.Password)
             {
+                var jwtToken = _tokenService.CreateTokenForAccount(existedUser);
                 return new ResponseDTO<string>
                 {
                     statusCode = 200,
-                    message = "login success"
+                    message = jwtToken
                 };
             }
             return new ResponseDTO<string>
             {
                 statusCode = 500,
-                message = "server error :("
+                message = "Server Error"
             };
         }
 
-        public ResponseDTO<string> Register(LoginRegisterDTO dto)
+        public ResponseDTO<string> Register(RegisterDTO dto)
         {
             User user = new User
             {
@@ -62,7 +66,7 @@ namespace Services.Services
             return new ResponseDTO<string>
             {
                 statusCode = 200,
-                message = "new user created"
+                message = "New user created"
             };
         }
     }

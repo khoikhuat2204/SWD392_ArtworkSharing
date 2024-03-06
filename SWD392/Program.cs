@@ -5,8 +5,10 @@ using Repository.Repos;
 using Services.Interface;
 using Services.Services;
 using System.Text;
+using Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddDbContext<ASPContext>(options =>
@@ -29,11 +31,17 @@ builder.Services.AddTransient<IReportService, ReportService>();
 builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddTransient<IPackageService, PackageService>();
 builder.Services.AddTransient<IArtworkService, ArtworkService>();
+builder.Services.AddSingleton<TokenService>();
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddAutoMapper(typeof(Program).Assembly);   
+builder.Services.AddJwtAuthenticationService(config);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerService();
 
 var app = builder.Build();
 

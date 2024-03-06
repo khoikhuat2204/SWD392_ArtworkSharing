@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataAccessLayer.Enum;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Services.Extensions;
 using Services.Interface;
 using Services.RequestDTO;
 using Services.ResponseDTO;
@@ -9,15 +12,17 @@ namespace SWD392.Controllers
     [Route("/")]
     public class UserController : Controller
     {
-        readonly IUserService userService;
+        private readonly IUserService userService;
+        private readonly TokenService _tokenService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, TokenService tokenService)
         {
             this.userService = userService;
+            _tokenService = tokenService;
         }
 
         [HttpPost("login")]
-        public IActionResult login([FromBody] LoginRegisterDTO dto)
+        public IActionResult login([FromBody] LoginDTO dto)
         {
             ResponseDTO<string> res = userService.Login(dto);
             if (res.statusCode == 200)
@@ -27,9 +32,9 @@ namespace SWD392.Controllers
             return StatusCode(res.statusCode, res.message);
 
         }
-
+        
         [HttpPost("register")]
-        public IActionResult register([FromBody] LoginRegisterDTO dto)
+        public IActionResult register([FromBody] RegisterDTO dto)
         {
             ResponseDTO<string> res = userService.Register(dto);
             if (res.statusCode == 200)

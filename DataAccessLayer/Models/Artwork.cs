@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLayer.Enum;
 
 namespace DataAccessLayer.Models
 {
@@ -19,7 +20,7 @@ namespace DataAccessLayer.Models
         public int TypeId { get; set; }
         public bool IsDeleted { get; set; }
         public int UserId { get; set; }
-
+        public ArtworkStatus ArtworkStatus { get; set; }
         public User? Artist { get; set; }
         public ArtworkType? ArtworkType { get; set; }
 

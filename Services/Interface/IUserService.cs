@@ -11,8 +11,8 @@ namespace Services.Interface
 {
     public interface IUserService
     {
-        ResponseDTO<string> Register(LoginRegisterDTO dto);
+        ResponseDTO<string> Register(RegisterDTO dto);
 
-        ResponseDTO<string> Login(LoginRegisterDTO dto);
+        ResponseDTO<string> Login(LoginDTO dto);
     }
 }

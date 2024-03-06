@@ -76,6 +76,9 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("ArtworkStatus")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ArtworkTypeId")
                         .HasColumnType("int");
 
@@ -101,23 +104,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Artworks");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.ArtworkStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("artworkStatus_Id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ArtworkStatuses");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.ArtworkType", b =>

@@ -15,3 +15,20 @@ D:\FPT\SWD392\project\SWD392\Services\obj\Debug\net6.0\Services.dll
 D:\FPT\SWD392\project\SWD392\Services\obj\Debug\net6.0\refint\Services.dll
 D:\FPT\SWD392\project\SWD392\Services\obj\Debug\net6.0\Services.pdb
 D:\FPT\SWD392\project\SWD392\Services\obj\Debug\net6.0\ref\Services.dll
+D:\Rider Projects\SWD392\Services\bin\Debug\net6.0\Services.deps.json
+D:\Rider Projects\SWD392\Services\bin\Debug\net6.0\Services.dll
+D:\Rider Projects\SWD392\Services\bin\Debug\net6.0\Services.pdb
+D:\Rider Projects\SWD392\Services\bin\Debug\net6.0\DataAccessLayer.dll
+D:\Rider Projects\SWD392\Services\bin\Debug\net6.0\Repository.dll
+D:\Rider Projects\SWD392\Services\bin\Debug\net6.0\Repository.pdb
+D:\Rider Projects\SWD392\Services\bin\Debug\net6.0\DataAccessLayer.pdb
+D:\Rider Projects\SWD392\Services\obj\Debug\net6.0\Services.csproj.AssemblyReference.cache
+D:\Rider Projects\SWD392\Services\obj\Debug\net6.0\Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\Rider Projects\SWD392\Services\obj\Debug\net6.0\Services.AssemblyInfoInputs.cache
+D:\Rider Projects\SWD392\Services\obj\Debug\net6.0\Services.AssemblyInfo.cs
+D:\Rider Projects\SWD392\Services\obj\Debug\net6.0\Services.csproj.CoreCompileInputs.cache
+D:\Rider Projects\SWD392\Services\obj\Debug\net6.0\Services.csproj.CopyComplete
+D:\Rider Projects\SWD392\Services\obj\Debug\net6.0\Services.dll
+D:\Rider Projects\SWD392\Services\obj\Debug\net6.0\refint\Services.dll
+D:\Rider Projects\SWD392\Services\obj\Debug\net6.0\Services.pdb
+D:\Rider Projects\SWD392\Services\obj\Debug\net6.0\ref\Services.dll

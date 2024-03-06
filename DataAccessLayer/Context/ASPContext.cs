@@ -42,7 +42,6 @@ namespace DataAccessLayer.Context
         public DbSet<Package>? Packages { get; set; }
         public DbSet<Artwork>? Artworks { get; set; }
         public DbSet<ArtworkType>? ArtworkTypes { get; set; }
-        public DbSet<ArtworkStatus>? ArtworkStatuses { get; set; }
         public DbSet<Tag>? Tags { get; set; }
         public DbSet<Report>? Reports { get; set; }
         public DbSet<ReportCause>? ReportCauses { get; set; }

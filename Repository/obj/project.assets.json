@@ -2883,19 +2883,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {}
+    "C:\\Users\\procf\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\FPT\\SWD392\\project\\SWD392\\Repository\\Repository.csproj",
+      "projectUniqueName": "D:\\Rider Projects\\SWD392\\Repository\\Repository.csproj",
       "projectName": "Repository",
-      "projectPath": "D:\\FPT\\SWD392\\project\\SWD392\\Repository\\Repository.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "D:\\FPT\\SWD392\\project\\SWD392\\Repository\\obj\\",
+      "projectPath": "D:\\Rider Projects\\SWD392\\Repository\\Repository.csproj",
+      "packagesPath": "C:\\Users\\procf\\.nuget\\packages\\",
+      "outputPath": "D:\\Rider Projects\\SWD392\\Repository\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\procf\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2909,8 +2909,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\FPT\\SWD392\\project\\SWD392\\DataAccessLayer\\DataAccessLayer.csproj": {
-              "projectPath": "D:\\FPT\\SWD392\\project\\SWD392\\DataAccessLayer\\DataAccessLayer.csproj"
+            "D:\\Rider Projects\\SWD392\\DataAccessLayer\\DataAccessLayer.csproj": {
+              "projectPath": "D:\\Rider Projects\\SWD392\\DataAccessLayer\\DataAccessLayer.csproj"
             }
           }
         }
@@ -2940,7 +2940,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }
