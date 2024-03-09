@@ -4,7 +4,7 @@ using DataAccessLayer.Models;
 using System.Threading.Tasks;
 
 namespace SWD392.Controllers;
-{
+
 
 [ApiController]
 [Route("/")]
@@ -46,4 +46,4 @@ namespace SWD392.Controllers;
             return Ok();
         }
     }
-}
+

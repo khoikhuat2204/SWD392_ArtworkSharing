@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using DataAccessLayer.DTOs.RequestDTO;
+using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Repository.Interface;
 using Services.Interface;
 
@@ -9,10 +13,12 @@ namespace SWD392.Controllers;
 public class ArtworkController : Controller
 {
     private readonly IArtworkService _artworkService;
+    private readonly IMapper _mapper;
 
-    public ArtworkController(IArtworkService artworkService)
+    public ArtworkController(IArtworkService artworkService, IMapper mapper)
     {
         _artworkService = artworkService;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -21,10 +27,22 @@ public class ArtworkController : Controller
         return  Ok(_artworkService.GetAll());
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddArtwork([FromBody] Artwork artwork)
+    [HttpPost("add-artwork")]
+    [Authorize(Roles = "Creator")]
+    public async Task<IActionResult> AddArtwork([FromForm] UploadArtworkDTO uploadArtworkDto)
     {
-        _artworkService.Add(artwork);
+        var userId = User.Identities.FirstOrDefault()?.Claims.FirstOrDefault(x => x.Type == "userId")?.Value ?? string.Empty;
+        var createdArtwork = new Artwork()
+        {
+            UserId = Int32.Parse(userId),
+            CreatedDate = DateTime.Now,
+            Name = uploadArtworkDto.Name,
+            Description = uploadArtworkDto.Description,
+            TypeId = uploadArtworkDto.TypeId,
+            ArtworkStatus = uploadArtworkDto.ArtworkStatus,
+            IsDeleted = false,
+        };
+        
         return Ok();
     }
 
