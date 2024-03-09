@@ -23,7 +23,21 @@ namespace Services.Services
         public List<Artwork> GetAll()
         {
             return _artworkRepository.GetAll().ToList();
-        } 
-        
+        }
+
+        public void Add(Artwork artwork)
+        {
+            _artworkRepository.Add(artwork);
+        }
+
+        public void Update(Artwork artwork)
+        {
+            _artworkRepository.Update(artwork);
+        }
+
+        public void Remove(Artwork artwork)
+        {
+             _artworkRepository.Delete(artwork);
+        }
     }
 }

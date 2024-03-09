@@ -24,6 +24,7 @@ builder.Services.AddTransient<IPackageRepository, PackageRepository>();
 builder.Services.AddTransient<IArtworkTypeRepository, ArtworkTypeRepository>();
 builder.Services.AddTransient<IArtworkRepository, ArtworkRepository>();
 builder.Services.AddTransient<IActiveSubscriptionRepository, ActiveSubscriptionRepository>();
+builder.Services.AddTransient<IAzureStorageRepository, AzureStorageRepository>();
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IReservationService, ReservationService>();
@@ -31,6 +32,7 @@ builder.Services.AddTransient<IReportService, ReportService>();
 builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddTransient<IPackageService, PackageService>();
 builder.Services.AddTransient<IArtworkService, ArtworkService>();
+builder.Services.AddTransient<IAzureService, AzureService>();
 builder.Services.AddSingleton<TokenService>();
 
 

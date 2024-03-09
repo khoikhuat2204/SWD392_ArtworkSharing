@@ -1,4 +1,4 @@
-﻿namespace Services.RequestDTO;
+﻿namespace DataAccessLayer.DTOs.RequestDTO;
 
 public class LoginDTO
 {
