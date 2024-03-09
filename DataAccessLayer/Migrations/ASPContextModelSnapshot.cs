@@ -79,9 +79,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("ArtworkStatus")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ArtworkTypeId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -105,7 +102,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtworkTypeId");
+                    b.HasIndex("TypeId");
 
                     b.HasIndex("UserId");
 
@@ -381,7 +378,9 @@ namespace DataAccessLayer.Migrations
                 {
                     b.HasOne("DataAccessLayer.Models.ArtworkType", "ArtworkType")
                         .WithMany("Artworks")
-                        .HasForeignKey("ArtworkTypeId");
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DataAccessLayer.Models.User", "Artist")
                         .WithMany("Artworks")

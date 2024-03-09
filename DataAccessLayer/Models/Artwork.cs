@@ -18,8 +18,10 @@ namespace DataAccessLayer.Models
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? ImagePath { get; set; }
+        [ForeignKey(nameof(ArtworkType))]
         public int TypeId { get; set; }
         public bool IsDeleted { get; set; }
+        [ForeignKey(nameof(User))]
         public int UserId { get; set; }
         public DateTime CreatedDate { get; set; }
         public ArtworkStatus ArtworkStatus { get; set; }

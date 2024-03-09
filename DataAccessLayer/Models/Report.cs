@@ -17,7 +17,10 @@ namespace DataAccessLayer.Models
         public bool IsDeleted { get; set; }
         public int CauseId { get; set; }
 
+        [ForeignKey(nameof(Models.User))]
         public int UserId { get; set; }
+        
+        [ForeignKey(nameof(Models.Artwork))]
         public int ArtworkId { get; set; }
 
         public ReportCause? Cause { get; set; }
