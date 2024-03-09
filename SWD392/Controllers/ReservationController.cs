@@ -16,28 +16,28 @@ namespace SWD392.Controllers
             _reservationService = reservationService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all-reservations")]
         public IActionResult GetAllReservations()
         {
             var reservations = _reservationService.GetAll();
             return Ok(reservations);
         }
 
-        [HttpPost]
+        [HttpPost("add-reservation")]
         public IActionResult AddReservation([FromBody] Reservation reservation)
         {
             _reservationService.Add(reservation);
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut("update-reservation/{id}")]
         public IActionResult UpdateReservation([FromBody] Reservation reservation)
         {
             _reservationService.Update(reservation);
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("delete-reservation/{id}")]
         public IActionResult RemoveReservation([FromBody] Reservation reservation)
         {
             _reservationService.Remove(reservation);

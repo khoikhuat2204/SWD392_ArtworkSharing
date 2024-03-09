@@ -16,28 +16,28 @@ namespace SWD392.Controllers
             _ratingService = ratingService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all-ratings")]
         public IActionResult GetAllRatings()
         {
             var ratings = _ratingService.GetAll();
             return Ok(ratings);
         }
 
-        [HttpPost]
+        [HttpPost("add-new-rating")]
         public IActionResult AddRating([FromBody] Rating rating)
         {
             _ratingService.Add(rating);
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut("update-rating/{id}")]
         public IActionResult UpdateRating([FromBody] Rating rating)
         {
             _ratingService.Update(rating);
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("delete-rating/{id}")]
         public IActionResult RemoveRating([FromBody] Rating rating)
         {
             _ratingService.Remove(rating);

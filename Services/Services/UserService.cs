@@ -58,7 +58,7 @@ namespace Services.Services
                 FullName = dto.FullName,
                 Phone = dto.Phone,
                 Address = dto.Address,
-                Role = DataAccessLayer.Enum.Role.Customer,
+                Role = dto.Role,
                 IsDeleted = false
             };
             userRepository.Add(user);

@@ -18,28 +18,28 @@ namespace SWD392.Controllers;
             _packageService = packageService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all-packages")]
         public IActionResult GetAllPackages()
         {
             var packages = _packageService.GetAll();
             return Ok(packages);
         }
 
-        [HttpPost]
+        [HttpPost("create-new-package")]
         public IActionResult AddPackage([FromBody] Package package)
         {
             _packageService.Add(package);
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut("update-package/{id}")]
         public IActionResult UpdatePackage([FromBody] Package package)
         {
             _packageService.Update(package);
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("delete-package/{id}")]
         public IActionResult RemovePackage([FromBody] Package package)
         {
             _packageService.Remove(package);
