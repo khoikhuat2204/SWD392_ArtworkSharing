@@ -4,6 +4,7 @@ using DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ASPContext))]
-    partial class ASPContextModelSnapshot : ModelSnapshot
+    [Migration("20240309015042_imagePathForArtwork")]
+    partial class imagePathForArtwork
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,6 +81,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("ArtworkStatus")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ArtworkTypeId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -102,7 +107,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("ArtworkTypeId");
 
                     b.HasIndex("UserId");
 
@@ -378,9 +383,7 @@ namespace DataAccessLayer.Migrations
                 {
                     b.HasOne("DataAccessLayer.Models.ArtworkType", "ArtworkType")
                         .WithMany("Artworks")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ArtworkTypeId");
 
                     b.HasOne("DataAccessLayer.Models.User", "Artist")
                         .WithMany("Artworks")

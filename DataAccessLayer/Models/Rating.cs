@@ -17,7 +17,10 @@ namespace DataAccessLayer.Models
         public int Id { get; set; }
         public int Score { get; set; }
 
+        [ForeignKey(nameof(Models.User))]
         public int UserId { get; set; }
+        
+        [ForeignKey(nameof(Models.Artwork))]
         public int ArtworkId { get; set; }
         public bool IsDeleted { get; set; }
 
