@@ -65,10 +65,15 @@ public class ArtworkController : Controller
         return Ok();
     }
 
+    [Authorize(Roles = "Creator")]
     [HttpPut("update-artwork/{id}")]
     public async Task<IActionResult> UpdateArtwork(int id, [FromBody] UpdateArtworkDTO updateArtworkDto)
     {
         var existingArtwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
+        if (id == 0)
+        {
+            return BadRequest();
+        }
         if (existingArtwork == null)
         {
             return NotFound();
