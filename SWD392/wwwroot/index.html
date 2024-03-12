@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Stripe Checkout Test</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <div id="cart-items"></div>
+    <button id="checkout-button">Checkout</button>
+
+    <script>
+        var stripe = Stripe('pk_test_51OsHZUGbEbQ0nPlDmozfqb0YVCLTp9jIhOZKwxbIDfYoQOR8yz5lyJdjTtRKN4mkOJVi2LDHAw86ksdapAFb3wUn00lnJawmvD'); // Replace with your Stripe public key
+
+        // Fetch cart items from your server
+        fetch('http://localhost:5272/cart.json', { method: 'GET' })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                var cartItems = data.cart;
+                var cartItemsDiv = document.getElementById('cart-items');
+                if (Array.isArray(cartItems)) {
+                    cartItems.forEach(function (item) {
+                        var itemElement = document.createElement('p');
+                        itemElement.textContent = item.item.Name + ' - ' + item.item.Type + ' - $' + item.item.Price + ' - Quantity: ' + item.Quantity;
+                        cartItemsDiv.appendChild(itemElement);
+                    });
+                } else {
+                    console.error('Error: cartItems is not an array');
+                }
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
+
+        document.getElementById('checkout-button').addEventListener('click', function () {
+            fetch('http://localhost:5272/create-checkout-session', { method: 'POST' })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (session) {
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                })
+                .then(function (result) {
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>

@@ -6,6 +6,7 @@ using Services.Interface;
 using Services.Services;
 using System.Text;
 using Services.Extensions;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -33,7 +34,8 @@ builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddTransient<IPackageService, PackageService>();
 builder.Services.AddTransient<IArtworkService, ArtworkService>();
 builder.Services.AddTransient<IAzureService, AzureService>();
-builder.Services.AddSingleton<TokenService>();
+/*builder.Services.AddSingleton<TokenService>();*/
+builder.Services.AddSingleton<Services.Extensions.TokenService>();
 
 
 
@@ -69,6 +71,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
