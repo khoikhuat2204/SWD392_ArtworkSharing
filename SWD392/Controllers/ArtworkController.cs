@@ -28,7 +28,11 @@ public class ArtworkController : Controller
     [HttpGet("get-all-artworks")]
     public async Task<IActionResult> GetAllArtworks()
     {
-        return Ok(_artworkService.GetAll());
+        var artworks = _artworkService.GetAll();
+        if (!artworks.Any())
+            return NotFound();
+        var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
+        return Ok(mappedArtworks);
     }
 
     [HttpPost("add-artwork")]
@@ -58,19 +62,24 @@ public class ArtworkController : Controller
         };
         
         _artworkService.Add(createdArtwork);
-    
         return Ok();
     }
 
     [HttpPut("update-artwork/{id}")]
-    public async Task<IActionResult> UpdateArtwork(int id, [FromBody] Artwork artwork)
+    public async Task<IActionResult> UpdateArtwork(int id, [FromBody] UpdateArtworkDTO updateArtworkDto)
     {
         var existingArtwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
         if (existingArtwork == null)
         {
             return NotFound();
         }
-        _artworkService.Update(artwork);
+        
+        existingArtwork.Name = updateArtworkDto.Name;
+        existingArtwork.Description = updateArtworkDto.Description;
+        existingArtwork.TypeId = updateArtworkDto.TypeId;
+        existingArtwork.IsDeleted = updateArtworkDto.IsDeleted;
+        
+        _artworkService.Update(existingArtwork);
         return NoContent();
     }
 
