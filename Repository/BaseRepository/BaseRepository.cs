@@ -33,7 +33,7 @@ namespace Repository.BaseRepository
 
         public virtual IQueryable<T> GetAll()
         {
-            return _dbSet;
+            return _dbSet.AsNoTracking();
         }
 
         public void Update(T entity)
