@@ -15,6 +15,11 @@ public class AutoMapper: Profile
     private void MapArtwork()
     {
         CreateMap<Artwork, UploadArtworkDTO>().ReverseMap();
+        CreateMap<UploadArtworkDTO, Artwork>().ReverseMap();
+        CreateMap<Artwork, ArtworkDTO>().ReverseMap();
+        CreateMap<ArtworkDTO, Artwork>().ReverseMap();
+        CreateMap<Artwork, UpdateArtworkDTO>().ReverseMap();
+        CreateMap<UpdateArtworkDTO, Artwork>().ReverseMap();
     }
 
     private void MapAccount()
