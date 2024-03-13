@@ -41,7 +41,7 @@ builder.Services.AddSingleton<Services.Extensions.TokenService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddAutoMapper(typeof(Program).Assembly);   
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddJwtAuthenticationService(config);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
