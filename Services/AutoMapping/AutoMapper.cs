@@ -13,6 +13,8 @@ public class AutoMapper: Profile
         MapAccount();
         MapReservation();
         MapReport();
+        MapPackage();
+        MapActiveSubscription();
     }
     
     private void MapReport()
@@ -40,5 +42,16 @@ public class AutoMapper: Profile
     private void MapAccount()
     {
         CreateMap<User, LoginDTO>().ReverseMap();
+    }
+
+    private void MapPackage()
+    {
+        CreateMap<Package, PackageDTO>().ReverseMap();
+    }
+    
+    private void MapActiveSubscription()
+    {
+        CreateMap<ActiveSubscription, ActiveSubscriptionDTO>().ReverseMap();
+        CreateMap<ActiveSubscription, CreateSubscriptionDTO>().ReverseMap();
     }
 }
