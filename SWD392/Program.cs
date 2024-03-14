@@ -54,7 +54,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ASPContext>();
-        context.Database.Migrate(); // Apply pending migrations
+       /* context.Database.Migrate();*/ // Apply pending migrations
     }
     catch (Exception ex)
     {
@@ -69,14 +69,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
 app.UseCors(x => x
         .AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader()
 );
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.MapControllers();
 
