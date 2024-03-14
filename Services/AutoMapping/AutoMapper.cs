@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataAccessLayer.DTOs.RequestDTO;
+using DataAccessLayer.DTOs.ResponseDTO;
 using DataAccessLayer.Models;
 
 namespace Services.AutoMapping;
@@ -10,6 +11,20 @@ public class AutoMapper: Profile
     {
         MapArtwork();
         MapAccount();
+        MapReservation();
+        MapReport();
+    }
+    
+    private void MapReport()
+    {
+        CreateMap<Report, ReportResponseDTO>().ReverseMap();
+        CreateMap<Report, ReportRequestDTO>().ReverseMap();
+    }
+
+    private void MapReservation()
+    {
+        CreateMap<Reservation, ReservationResponseDTO>().ReverseMap();
+        CreateMap<Reservation, ReservationRequestDTO>().ReverseMap();
     }
 
     private void MapArtwork()

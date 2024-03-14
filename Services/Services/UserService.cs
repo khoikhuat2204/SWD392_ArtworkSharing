@@ -49,6 +49,11 @@ namespace Services.Services
             };
         }
 
+        public User GetById(int id)
+        {
+            return userRepository.GetById(id);
+        }
+
         public ResponseDTO<string> Register(RegisterDTO dto)
         {
             User user = new User
