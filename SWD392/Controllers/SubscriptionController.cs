@@ -24,11 +24,17 @@ public class SubscriptionController : Controller
     {
         var subscriptions = _subscriptionService.GetAllActiveSubscriptions()
             .Include(a => a.Package)
-            .Include(a => a.User);
+            .Include(a => a.User).ToList();
         if (!subscriptions.Any())
             return NotFound();
         // need remapping for user and package
-        var mappedSubscriptions = subscriptions.Select(p => _mapper.Map<ActiveSubscriptionDTO>(p)).ToList();
+        var mappedSubscriptions = _mapper.Map<List<ActiveSubscriptionDTO>>(subscriptions);
+        // map user name and package name
+        foreach (var subscription in mappedSubscriptions)
+        {
+            subscription.UserName = subscriptions.FirstOrDefault(a => a.Id == subscription.Id)?.User?.FullName;
+            subscription.PackageName = subscriptions.FirstOrDefault(a => a.Id == subscription.Id)?.Package?.Name;
+        }
         return Ok(mappedSubscriptions);
     }
     
