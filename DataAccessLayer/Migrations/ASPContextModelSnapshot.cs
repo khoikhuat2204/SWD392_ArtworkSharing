@@ -94,8 +94,8 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("Price")
-                        .HasColumnType("real");
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
