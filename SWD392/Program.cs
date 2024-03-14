@@ -5,6 +5,7 @@ using Repository.Repos;
 using Services.Interface;
 using Services.Services;
 using System.Text;
+using System.Text.Json.Serialization;
 using Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +34,7 @@ builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddTransient<IPackageService, PackageService>();
 builder.Services.AddTransient<IArtworkService, ArtworkService>();
 builder.Services.AddTransient<IAzureService, AzureService>();
+builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();
 builder.Services.AddSingleton<TokenService>();
 
 

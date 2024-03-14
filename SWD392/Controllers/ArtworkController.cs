@@ -52,6 +52,7 @@ public class ArtworkController : Controller
             CreatedDate = DateTime.Now,
             Name = uploadArtworkDto.Name,
             Description = uploadArtworkDto.Description,
+            Price = uploadArtworkDto.Price,
             TypeId = uploadArtworkDto.TypeId,
             ArtworkStatus = uploadArtworkDto.ArtworkStatus,
             IsDeleted = false,
@@ -78,6 +79,7 @@ public class ArtworkController : Controller
 
         existingArtwork.Name = updateArtworkDto.Name;
         existingArtwork.Description = updateArtworkDto.Description;
+        existingArtwork.Price = updateArtworkDto.Price;
         existingArtwork.TypeId = updateArtworkDto.TypeId;
         existingArtwork.IsDeleted = updateArtworkDto.IsDeleted;
 
