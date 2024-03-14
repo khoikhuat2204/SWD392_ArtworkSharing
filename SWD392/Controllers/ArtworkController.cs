@@ -35,6 +35,16 @@ public class ArtworkController : Controller
         return Ok(mappedArtworks);
     }
 
+    [HttpGet("get-artworks/{id}")]
+    public async Task<IActionResult> GetArtworksByUserId(int id)
+    {
+        var artworks = _artworkService.GetAllByUserId(id);
+        if (!artworks.Any())
+            return NotFound();
+        var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
+        return Ok(mappedArtworks);
+    }
+
     [HttpPost("add-artwork")]
     [Authorize(Roles = "Creator")]
     public async Task<IActionResult> AddArtwork([FromForm] UploadArtworkDTO uploadArtworkDto)
@@ -52,6 +62,7 @@ public class ArtworkController : Controller
             CreatedDate = DateTime.Now,
             Name = uploadArtworkDto.Name,
             Description = uploadArtworkDto.Description,
+            Price = uploadArtworkDto.Price,
             TypeId = uploadArtworkDto.TypeId,
             ArtworkStatus = uploadArtworkDto.ArtworkStatus,
             IsDeleted = false,
