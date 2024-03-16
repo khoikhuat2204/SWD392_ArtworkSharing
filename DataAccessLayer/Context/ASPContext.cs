@@ -45,6 +45,7 @@ namespace DataAccessLayer.Context
         public DbSet<Tag>? Tags { get; set; }
         public DbSet<Report>? Reports { get; set; }
         public DbSet<ReportCause>? ReportCauses { get; set; }
+        public DbSet<FavoriteArtwork> FavoriteArtworks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -71,6 +72,16 @@ namespace DataAccessLayer.Context
                 .WithMany(u => u.Artworks)
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
+            
+            modelBuilder.Entity<FavoriteArtwork>()
+                .HasOne(fa => fa.User)
+                .WithMany(u => u.FavoriteArtworks)
+                .HasForeignKey(fa => fa.UserId);
+
+            modelBuilder.Entity<FavoriteArtwork>()
+                .HasOne(fa => fa.Artwork)
+                .WithMany(a => a.FavoriteArtworks)
+                .HasForeignKey(fa => fa.ArtworkId);
 
             // Other configurations...
 

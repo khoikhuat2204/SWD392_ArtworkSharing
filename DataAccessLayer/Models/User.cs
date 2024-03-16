@@ -42,6 +42,7 @@ namespace DataAccessLayer.Models
         public ICollection<Artwork>? Artworks { get; set; }
         [JsonIgnore]
         public ICollection<ActiveSubscription>? ActiveSubscriptions { get; set; }
+        public virtual ICollection<FavoriteArtwork> FavoriteArtworks { get; set; }
     }
 
 }

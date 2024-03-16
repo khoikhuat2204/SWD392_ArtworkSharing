@@ -33,6 +33,7 @@ namespace DataAccessLayer.Models
         public ICollection<Tag>? Tags { get; set; }
         public ICollection<Rating>? Ratings { get; set; }
         public ICollection<Reservation>? Reservations { get; set; }
+        public virtual ICollection<FavoriteArtwork> FavoriteArtworks { get; set; }
 
     }
 }

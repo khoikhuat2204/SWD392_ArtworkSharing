@@ -132,6 +132,32 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("ArtworkTypes");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.FavoriteArtwork", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ArtworkId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArtworkId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoriteArtworks");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Package", b =>
                 {
                     b.Property<int>("Id")
@@ -396,6 +422,25 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("ArtworkType");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.FavoriteArtwork", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Artwork", "Artwork")
+                        .WithMany("FavoriteArtworks")
+                        .HasForeignKey("ArtworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.User", "User")
+                        .WithMany("FavoriteArtworks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Artwork");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Rating", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Artwork", "Artwork")
@@ -470,6 +515,8 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Models.Artwork", b =>
                 {
+                    b.Navigation("FavoriteArtworks");
+
                     b.Navigation("Ratings");
 
                     b.Navigation("Reports");
@@ -499,6 +546,8 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Artists");
 
                     b.Navigation("Artworks");
+
+                    b.Navigation("FavoriteArtworks");
 
                     b.Navigation("Ratings");
 
