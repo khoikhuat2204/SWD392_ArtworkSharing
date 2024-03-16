@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.DTOs.RequestDTO;
+using DataAccessLayer.Models;
 
 namespace Services.Interface
 {
@@ -7,5 +8,7 @@ namespace Services.Interface
         ResponseDTO<string> Register(RegisterDTO dto);
 
         ResponseDTO<string> Login(LoginDTO dto);
+        
+        public User GetById(int id);
     }
 }

@@ -5,6 +5,7 @@ using Repository.Repos;
 using Services.Interface;
 using Services.Services;
 using System.Text;
+using System.Text.Json.Serialization;
 using Services.Extensions;
 using Stripe;
 
@@ -34,8 +35,10 @@ builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddTransient<IPackageService, PackageService>();
 builder.Services.AddTransient<IArtworkService, ArtworkService>();
 builder.Services.AddTransient<IAzureService, AzureService>();
-/*builder.Services.AddSingleton<TokenService>();*/
+
 builder.Services.AddSingleton<Services.Extensions.TokenService>();
+builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();
+builder.Services.AddSingleton<TokenService>();
 
 
 
@@ -86,9 +89,6 @@ StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey"
 
 app.UseStaticFiles();
 
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
 app.UseCors(x => x
         .AllowAnyOrigin()
         .AllowAnyMethod()
@@ -96,6 +96,10 @@ app.UseCors(x => x
 );
 
 app.UseSession();
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

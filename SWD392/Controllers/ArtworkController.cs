@@ -40,27 +40,25 @@ public class ArtworkController : Controller
     public async Task<IActionResult> AddArtwork([FromForm] UploadArtworkDTO uploadArtworkDto)
     {
         var userId = User.Identities.FirstOrDefault()?.Claims.FirstOrDefault(x => x.Type == "userId")?.Value ?? string.Empty;
-    
+
         var imageUrls = new List<string?>();
-        foreach (var image in uploadArtworkDto.ImageUploadRequest)
-        {
-            var imageExtension = ImageExtension.ImageExtensionChecker(image.FileName);
-            var uri = (await _azureService.UploadImage(image, null, "post", imageExtension, false))?.Blob.Uri;
-            imageUrls.Add(uri);
-        }
-        
+        var imageExtension = ImageExtension.ImageExtensionChecker(uploadArtworkDto.ImageUploadRequest.FileName);
+        var uri = (await _azureService.UploadImage(uploadArtworkDto.ImageUploadRequest, null, "post", imageExtension, false))?.Blob.Uri;
+        imageUrls.Add(uri);
+
         var createdArtwork = new Artwork()
         {
             UserId = Int32.Parse(userId),
             CreatedDate = DateTime.Now,
             Name = uploadArtworkDto.Name,
             Description = uploadArtworkDto.Description,
+            Price = uploadArtworkDto.Price,
             TypeId = uploadArtworkDto.TypeId,
             ArtworkStatus = uploadArtworkDto.ArtworkStatus,
             IsDeleted = false,
             ImagePath = imageUrls[0],
         };
-        
+
         _artworkService.Add(createdArtwork);
         return Ok();
     }
@@ -78,12 +76,13 @@ public class ArtworkController : Controller
         {
             return NotFound();
         }
-        
+
         existingArtwork.Name = updateArtworkDto.Name;
         existingArtwork.Description = updateArtworkDto.Description;
+        existingArtwork.Price = updateArtworkDto.Price;
         existingArtwork.TypeId = updateArtworkDto.TypeId;
         existingArtwork.IsDeleted = updateArtworkDto.IsDeleted;
-        
+
         _artworkService.Update(existingArtwork);
         return NoContent();
     }

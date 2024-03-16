@@ -7,11 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SWD392", "SWD392\SWD392.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{83651139-CC92-41AA-B104-AA5619AC9105}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{3AC6A7FF-4340-45C2-93B0-71DDE2D7DF3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{3AC6A7FF-4340-45C2-93B0-71DDE2D7DF3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{C418D032-8DA7-4E8F-99ED-1B9B9C53D877}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FE", "FE", "{F9D6F273-1D75-4950-A53E-C425CA87E6DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{C418D032-8DA7-4E8F-99ED-1B9B9C53D877}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
