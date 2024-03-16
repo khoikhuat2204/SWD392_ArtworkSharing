@@ -39,7 +39,7 @@ namespace Services.Services
         {
              _artworkRepository.Delete(artwork);
         }
-
+        
         public List<Artwork> GetAllByUserId(int id)
         {
             return _artworkRepository.GetAllByUserId(id).ToList();

@@ -10,9 +10,7 @@ namespace Services.Interface
     public interface IArtworkService
     {
         public List<Artwork> GetAll();
-
         public List<Artwork> GetAllByUserId(int id);
-
         public void Add(Artwork artwork);
 
         public void Update(Artwork artwork);

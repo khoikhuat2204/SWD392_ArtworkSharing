@@ -34,8 +34,8 @@ public class ArtworkController : Controller
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
         return Ok(mappedArtworks);
     }
-
-    [HttpGet("get-artworks/{id}")]
+    
+    [HttpGet("get-artworks/user/{id}")]
     public async Task<IActionResult> GetArtworksByUserId(int id)
     {
         var artworks = _artworkService.GetAllByUserId(id);
@@ -44,7 +44,7 @@ public class ArtworkController : Controller
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
         return Ok(mappedArtworks);
     }
-
+    
     [HttpGet("get-artwork/{id}")]
     public async Task<IActionResult> GetArtworksById(int id)
     {
@@ -99,6 +99,7 @@ public class ArtworkController : Controller
 
         existingArtwork.Name = updateArtworkDto.Name;
         existingArtwork.Description = updateArtworkDto.Description;
+        existingArtwork.Price = updateArtworkDto.Price;
         existingArtwork.TypeId = updateArtworkDto.TypeId;
         existingArtwork.IsDeleted = updateArtworkDto.IsDeleted;
 
@@ -117,6 +118,5 @@ public class ArtworkController : Controller
         _artworkService.Remove(artwork);
         return NoContent();
     }
-
 
 }

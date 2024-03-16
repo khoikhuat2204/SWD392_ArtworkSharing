@@ -11,5 +11,9 @@ namespace Repository.Repos
 {
     public class ArtworkTypeRepository : BaseRepository<ArtworkType>, IArtworkTypeRepository
     {
+        public IQueryable<ArtworkType> GetArtworkTypesNotDeleted()
+        {
+            return GetAll().Where(x => !x.IsDeleted);
+        }
     }
 }
