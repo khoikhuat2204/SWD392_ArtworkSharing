@@ -35,7 +35,7 @@ public class FavoriteArtworkController : ControllerBase
     [HttpPost("add-favorite-artwork")]
     public IActionResult AddFavoriteArtwork(CreateFavoriteArtworkDTO createFavoriteArtworkDto)
     {
-        if(_artworkService.GetAll().Any(a => a.Id != createFavoriteArtworkDto.ArtworkId))
+        if(!_artworkService.GetAll().Any(a => a.Id == createFavoriteArtworkDto.ArtworkId))
             return BadRequest("Artwork does not exist");
         _favoriteArtworkService.Add(_mapper.Map<FavoriteArtwork>(createFavoriteArtworkDto));
         return Ok("Favorite artwork added");

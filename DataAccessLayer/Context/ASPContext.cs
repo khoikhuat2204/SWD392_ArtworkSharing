@@ -45,7 +45,7 @@ namespace DataAccessLayer.Context
         public DbSet<Tag>? Tags { get; set; }
         public DbSet<Report>? Reports { get; set; }
         public DbSet<ReportCause>? ReportCauses { get; set; }
-        public DbSet<FavoriteArtwork> FavoriteArtworks { get; set; }
+        public DbSet<FavoriteArtwork>? FavoriteArtworks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
