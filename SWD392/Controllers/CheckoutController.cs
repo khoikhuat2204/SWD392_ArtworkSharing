@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Stripe;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SWD392.Controllers
 {
-    public class Cart
+*//*    public class Cart
     {
         public List<CartItem> Items { get; set; }
     }
@@ -19,24 +19,20 @@ namespace SWD392.Controllers
     {
         public string Type { get; set; }
         public ItemDetails Item { get; set; }
-        public int Quantity { get; set; } // Add this line
+        public int Quantity { get; set; }
     }
 
     public class ItemDetails
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
         public decimal Price { get; set; }
-    }
+    }*//*
 
-
-
-    [Route("create-checkout-session")]
+    [Route("/")]
     [ApiController]
     public class CheckoutController : Controller
     {
-
         private readonly IConfiguration _configuration;
         private readonly string domain = "http://localhost:5272";
 
@@ -45,35 +41,39 @@ namespace SWD392.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost]
+
+
+
+        [HttpPost("create-checkout-session")]
         public async Task<ActionResult> Create()
         {
             StripeConfiguration.ApiKey = _configuration.GetSection("Stripe:SecretKey").Value;
 
-            // Create a new Cart object with predefined data
+            // Get the artwork details from the session
+            var artworkId = HttpContext.Session.GetInt32("ArtworkId");
+            var name = HttpContext.Session.GetString("Name");
+            var priceString = HttpContext.Session.GetString("Price");
+            var quantity = HttpContext.Session.GetInt32("Quantity");
+
+            // Check if any session variable is null and return so json can read
+            if (artworkId == null || name == null || priceString == null || quantity == null)
+            {
+                return BadRequest("Session data is missing");
+            }
+
+            var price = decimal.Parse(priceString);
+
             var cart = new Cart
             {
                 Items = new List<CartItem>
-                {
-                    new CartItem
-                    {
-                        Type = "Artwork",
-                        Item = new ItemDetails { Id = 1, Name = "Artwork 1", Type = "Painting", Price = 50.00m },
-                        Quantity = 1 // Add this line
-                    },
-                    new CartItem
-                    {
-                        Type = "Artwork",
-                        Item = new ItemDetails { Id = 2, Name = "Artwork 2", Type = "Sculpture", Price = 120.00m },
-                        Quantity = 2 // Add this line
-                    },
-                    new CartItem
-                    {
-                        Type = "Artwork",
-                        Item = new ItemDetails { Id = 3, Name = "Artwork 3", Type = "Photograph", Price = 30.00m },
-                        Quantity = 3 // Add this line
-                    }
-                }
+        {
+            new CartItem
+            {
+                Type = "Artwork",
+                Item = new ItemDetails { Id = artworkId.Value, Name = name, Price = price },
+                Quantity = quantity.Value
+            }
+        }
             };
 
             var lineItems = new List<SessionLineItemOptions>();
@@ -89,7 +89,7 @@ namespace SWD392.Controllers
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
-                            Name = $"{item.Item.Type}: {item.Item.Name}",
+                            Name = $"{item.Type}: {item.Item.Name}",
                         },
                     },
                     Quantity = item.Quantity, // Use the Quantity property here
@@ -99,13 +99,13 @@ namespace SWD392.Controllers
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string>
-                {
-                    "card",
-                },
+        {
+            "card",
+        },
                 LineItems = lineItems,
                 Mode = "payment",
                 SuccessUrl = domain + "/success",
-                CancelUrl = domain + "/index.html",
+                CancelUrl = domain + "/cancel",
             };
 
             var service = new SessionService();
@@ -113,5 +113,10 @@ namespace SWD392.Controllers
 
             return Json(new { id = session.Id });
         }
+
+
+
+
     }
 }
+*/

@@ -47,6 +47,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerService();
 
+// Add session
+builder.Services.AddControllersWithViews(); // This registers ITempDataDictionaryFactory and other services
+builder.Services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "SWD392";     
+    options.IdleTimeout = new TimeSpan(0, 30, 0); 
+});
+
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -56,7 +66,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ASPContext>();
-        context.Database.Migrate(); // Apply pending migrations
+        //context.Database.Migrate(); // Apply pending migrations
     }
     catch (Exception ex)
     {
@@ -73,7 +83,9 @@ if (app.Environment.IsDevelopment())
 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
+
 app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -82,6 +94,8 @@ app.UseCors(x => x
         .AllowAnyMethod()
         .AllowAnyHeader()
 );
+
+app.UseSession();
 
 app.MapControllers();
 
