@@ -14,9 +14,9 @@ namespace Services.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository userRepository;
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
 
-        public UserService(IUserRepository userRepository, TokenService tokenService)
+        public UserService(IUserRepository userRepository, ITokenService tokenService)
         {
             this.userRepository = userRepository;
             _tokenService = tokenService;
