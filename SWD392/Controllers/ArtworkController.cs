@@ -34,6 +34,26 @@ public class ArtworkController : Controller
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
         return Ok(mappedArtworks);
     }
+    
+    [HttpGet("get-artworks/user/{id}")]
+    public async Task<IActionResult> GetArtworksByUserId(int id)
+    {
+        var artworks = _artworkService.GetAllByUserId(id);
+        if (!artworks.Any())
+            return NotFound();
+        var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
+        return Ok(mappedArtworks);
+    }
+    
+    [HttpGet("get-artwork/{id}")]
+    public async Task<IActionResult> GetArtworksById(int id)
+    {
+        var artwork = _artworkService.GetAll().Find(x => x.Id.Equals(id));
+        if (artwork == null)
+            return NotFound();
+        var mappedArtworks = _mapper.Map<ArtworkDTO>(artwork);
+        return Ok(mappedArtworks);
+    }
 
     [HttpPost("add-artwork")]
     [Authorize(Roles = "Creator")]

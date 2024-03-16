@@ -11,5 +11,9 @@ namespace Repository.Repos
 {
     public class ArtworkRepository : BaseRepository<Artwork>, IArtworkRepository
     {
+        public IQueryable<Artwork> GetAllByUserId(int id)
+        {
+            return GetAll().Where(x => x.UserId == id);
+        }
     }
 }
