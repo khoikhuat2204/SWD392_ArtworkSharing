@@ -12,12 +12,10 @@ namespace SWD392.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
-        private readonly TokenService _tokenService;
 
-        public UserController(IUserService userService, TokenService tokenService)
+        public UserController(IUserService userService, ITokenService tokenService)
         {
             this.userService = userService;
-            _tokenService = tokenService;
         }
 
         [HttpPost("login")]
