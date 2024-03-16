@@ -175,7 +175,7 @@ namespace SWD392.Controllers
                 {
                     ArtworkId = item.artwork.Id,
                     ArtworkName = item.artwork.Name,
-                    ArtworkPrice = 300.00m,
+                    ArtworkPrice = item.artwork.Price,
                     Quantity = item.Quantity
                 });
             }
@@ -353,7 +353,7 @@ namespace SWD392.Controllers
                 {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
-                        UnitAmount = (long)(300 * 100), // Convert dollars to cents and decimal to long
+                        UnitAmount = (long)(item.artwork.Price * 100), // Convert dollars to cents and decimal to long
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
@@ -441,7 +441,6 @@ namespace SWD392.Controllers
         */
 
         [HttpPost("webhook")]
-        [HttpPost]
         public async Task<IActionResult> Index()
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();

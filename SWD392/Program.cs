@@ -37,8 +37,8 @@ builder.Services.AddTransient<IArtworkService, ArtworkService>();
 builder.Services.AddTransient<IAzureService, AzureService>();
 
 builder.Services.AddSingleton<Services.Extensions.TokenService>();
-builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();
-builder.Services.AddSingleton<TokenService>();
+builder.Services.AddTransient<ISubscriptionService, Services.Services.SubscriptionService>();
+builder.Services.AddSingleton<Stripe.TokenService>();
 
 
 
