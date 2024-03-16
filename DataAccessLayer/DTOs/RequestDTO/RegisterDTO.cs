@@ -1,4 +1,6 @@
-﻿namespace DataAccessLayer.DTOs.RequestDTO;
+﻿using DataAccessLayer.Enum;
+
+namespace DataAccessLayer.DTOs.RequestDTO;
 
 public class RegisterDTO
 {
@@ -7,5 +9,7 @@ public class RegisterDTO
     public string? Password { get; set; }
     public string? Phone { get; set; }
     public string? Address { get; set; }
+    public Role Role { get; set; }
+    
 }
 

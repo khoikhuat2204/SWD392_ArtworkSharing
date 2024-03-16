@@ -14,10 +14,14 @@ namespace DataAccessLayer.Models
         [Column("report_Id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public bool IsDeleted { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
         public int CauseId { get; set; }
 
+        [ForeignKey(nameof(Models.User))]
         public int UserId { get; set; }
+        
+        [ForeignKey(nameof(Models.Artwork))]
         public int ArtworkId { get; set; }
 
         public ReportCause? Cause { get; set; }

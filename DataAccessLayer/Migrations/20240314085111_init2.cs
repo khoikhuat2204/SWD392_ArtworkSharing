@@ -5,23 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class init2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "ArtworkStatuses",
-                columns: table => new
-                {
-                    artworkStatus_Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ArtworkStatuses", x => x.artworkStatus_Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "ArtworkTypes",
                 columns: table => new
@@ -43,7 +30,10 @@ namespace DataAccessLayer.Migrations
                     package_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UploadsPerDay = table.Column<int>(type: "int", nullable: false),
+                    TotalUploads = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -140,19 +130,23 @@ namespace DataAccessLayer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TypeId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    ArtworkTypeId = table.Column<int>(type: "int", nullable: true)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ArtworkStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Artworks", x => x.artwork_Id);
                     table.ForeignKey(
-                        name: "FK_Artworks_ArtworkTypes_ArtworkTypeId",
-                        column: x => x.ArtworkTypeId,
+                        name: "FK_Artworks_ArtworkTypes_TypeId",
+                        column: x => x.TypeId,
                         principalTable: "ArtworkTypes",
-                        principalColumn: "artworkType_Id");
+                        principalColumn: "artworkType_Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Artworks_Users_UserId",
                         column: x => x.UserId,
@@ -283,9 +277,9 @@ namespace DataAccessLayer.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Artworks_ArtworkTypeId",
+                name: "IX_Artworks_TypeId",
                 table: "Artworks",
-                column: "ArtworkTypeId");
+                column: "TypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Artworks_UserId",
@@ -342,9 +336,6 @@ namespace DataAccessLayer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ActiveSubscription");
-
-            migrationBuilder.DropTable(
-                name: "ArtworkStatuses");
 
             migrationBuilder.DropTable(
                 name: "ArtworkTag");
