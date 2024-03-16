@@ -5,6 +5,7 @@ using Repository.Repos;
 using Services.Interface;
 using Services.Services;
 using System.Text;
+using System.Text.Json.Serialization;
 using Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
