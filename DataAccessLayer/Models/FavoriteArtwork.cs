@@ -16,7 +16,7 @@ public class FavoriteArtwork
     public int ArtworkId { get; set; }
 
     [Required]
-    public DateTime Timestamp { get; set; }
+    public DateTime Timestamp { get; set; } = DateTime.Now;
 
     [ForeignKey("UserId")]
     public virtual User User { get; set; }

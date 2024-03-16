@@ -15,6 +15,12 @@ public class AutoMapper: Profile
         MapReport();
         MapPackage();
         MapActiveSubscription();
+        MapFavoriteArtwork();
+    }
+    
+    private void MapFavoriteArtwork()
+    {
+        CreateMap<FavoriteArtwork, CreateFavoriteArtworkDTO>().ReverseMap();
     }
     
     private void MapReport()
