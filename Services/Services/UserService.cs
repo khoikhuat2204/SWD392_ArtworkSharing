@@ -77,5 +77,10 @@ namespace Services.Services
                 message = "Register failed! Please try again or contact us for more details."
             };
         }
+
+        public List<User> GetAllCreator()
+        {
+            return _userRepository.GetAllCreator().ToList();
+        }
     }
 }

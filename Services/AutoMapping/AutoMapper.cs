@@ -17,6 +17,7 @@ public class AutoMapper: Profile
         MapActiveSubscription();
         MapRegister();
         MapArtworkType();
+        MapUser();
         MapRating();
     }
     
@@ -64,6 +65,11 @@ public class AutoMapper: Profile
     private void MapArtworkType()
     {
         CreateMap<ArtworkType, ArtworkTypeDTO>().ReverseMap();
+    }
+
+    private void MapUser()
+    {
+        CreateMap<User, UserDTO>().ReverseMap();
     }
     
     private void MapRating()
