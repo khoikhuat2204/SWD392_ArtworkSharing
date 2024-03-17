@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Interface;
 using DataAccessLayer.Models;
-using System.Threading.Tasks;
 using AutoMapper;
 using DataAccessLayer.DTOs.RequestDTO;
 using DataAccessLayer.DTOs.ResponseDTO;
@@ -9,7 +8,7 @@ using DataAccessLayer.DTOs.ResponseDTO;
 namespace SWD392.Controllers
 {
     [ApiController]
-    [Route("/")]
+    [Route("reservation")]
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
@@ -59,10 +58,6 @@ namespace SWD392.Controllers
                 return BadRequest("Artwork not found");
             }
             
-            if(_packageService.GetAll().FirstOrDefault(p => p.Id == reservation.PackageId) == null)
-            {
-                return BadRequest("Package not found");
-            }
             var mappedReservation = _mapper.Map<Reservation>(reservation);
             
             _reservationService.Add(mappedReservation);
@@ -111,5 +106,14 @@ namespace SWD392.Controllers
         //     _reservationService.Remove(reservation);
         //     return Ok();
         // }
+
+        public IActionResult MakeReservation(ReservationRequestDTO reservation)
+        {
+            if (_reservationService.MakeReservation(reservation))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
     }
 }

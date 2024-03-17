@@ -118,5 +118,4 @@ public class ArtworkController : Controller
         _artworkService.Remove(artwork);
         return NoContent();
     }
-
 }
