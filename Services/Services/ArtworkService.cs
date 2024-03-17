@@ -14,12 +14,10 @@ namespace Services.Services
     public class ArtworkService : IArtworkService
     {
         private readonly IArtworkRepository _artworkRepository;
-        private readonly ISubscriptionService _subscriptionService;
 
-        public ArtworkService(IArtworkRepository artworkRepository, ISubscriptionService subscriptionService)
+        public ArtworkService(IArtworkRepository artworkRepository)
         {
             _artworkRepository = artworkRepository;
-            _subscriptionService = subscriptionService;
         }
 
         public List<Artwork> GetAll()
@@ -45,28 +43,6 @@ namespace Services.Services
         public List<Artwork> GetAllByUserId(int id)
         {
             return _artworkRepository.GetAllByUserId(id).ToList();
-        }
-
-        public bool CheckSubscriptionForUpload(int userId)
-        {
-            var subscription = _subscriptionService.GetAllActiveSubscriptions()
-                .Include(c => c.Package)
-                .FirstOrDefault(c => c.UserId == userId);
-            var artworksCreatedToday = GetAll().Where(c => c.UserId == userId && c.CreatedDate.Date == DateTime.Today).ToList();
-            var allArtworks = GetAll().Where(c => c.UserId.Equals(userId) && c.CreatedDate > subscription.StartDate).ToList();
-            
-            if (subscription == null)
-                return false;
-            if (artworksCreatedToday.Count() >= subscription.Package.UploadsPerDay)
-            {
-                return false;
-            }
-            if (allArtworks.Count() >= subscription.Package.TotalUploads)
-            {
-                return false;
-            }
-
-            return true;
         }
 
     }

@@ -61,33 +61,26 @@ public class ArtworkController : Controller
     {
         var userId = User.Identities.FirstOrDefault()?.Claims.FirstOrDefault(x => x.Type == "userId")?.Value ?? string.Empty;
 
-        if (_artworkService.CheckSubscriptionForUpload(Int32.Parse(userId)))
-        {
-            var imageUrls = new List<string?>();
-            var imageExtension = ImageExtension.ImageExtensionChecker(uploadArtworkDto.ImageUploadRequest.FileName);
-            var uri = (await _azureService.UploadImage(uploadArtworkDto.ImageUploadRequest, null, "post", imageExtension, false))?.Blob.Uri;
-            imageUrls.Add(uri);
+        var imageUrls = new List<string?>();
+        var imageExtension = ImageExtension.ImageExtensionChecker(uploadArtworkDto.ImageUploadRequest.FileName);
+        var uri = (await _azureService.UploadImage(uploadArtworkDto.ImageUploadRequest, null, "post", imageExtension, false))?.Blob.Uri;
+        imageUrls.Add(uri);
 
-            var createdArtwork = new Artwork()
-            {
-                UserId = Int32.Parse(userId),
-                CreatedDate = DateTime.Now,
-                Name = uploadArtworkDto.Name,
-                Description = uploadArtworkDto.Description,
-                Price = uploadArtworkDto.Price,
-                TypeId = uploadArtworkDto.TypeId,
-                ArtworkStatus = uploadArtworkDto.ArtworkStatus,
-                IsDeleted = false,
-                ImagePath = imageUrls[0],
-            };
-            _artworkService.Add(createdArtwork);
-            return Ok(createdArtwork);
-        }
-        else
+        var createdArtwork = new Artwork()
         {
-            return BadRequest("You have reached your upload limit for today or you have exceeded your total upload limit");
-        }
-        
+            UserId = Int32.Parse(userId),
+            CreatedDate = DateTime.Now,
+            Name = uploadArtworkDto.Name,
+            Description = uploadArtworkDto.Description,
+            Price = uploadArtworkDto.Price,
+            TypeId = uploadArtworkDto.TypeId,
+            ArtworkStatus = uploadArtworkDto.ArtworkStatus,
+            IsDeleted = false,
+            ImagePath = imageUrls[0],
+        };
+
+        _artworkService.Add(createdArtwork);
+        return Ok();
     }
 
     [Authorize(Roles = "Creator")]
