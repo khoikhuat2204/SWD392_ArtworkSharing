@@ -42,7 +42,7 @@ namespace Services.Services
 
         public List<Artwork> SearchByName(string name)
         {
-            return _artworkRepository.GetAll().Where(x => (x.Name ?? string.Empty).Contains(name)).ToList();
+            return _artworkRepository.SearchByName(name).ToList();
         }
 
         public Artwork GetById(int id)

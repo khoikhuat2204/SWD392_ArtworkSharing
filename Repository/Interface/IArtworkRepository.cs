@@ -8,5 +8,6 @@ namespace Repository.Interface
         IQueryable<Artwork> GetAllByUserId(int id);
         Artwork? GetById(int id);
         IQueryable<Artwork> SearchByTags(List<int> tagIds);
+        IQueryable<Artwork> SearchByName(string name);
     }
 }
