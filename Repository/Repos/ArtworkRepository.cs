@@ -21,5 +21,15 @@ namespace Repository.Repos
         {
             return GetAll().FirstOrDefault(artwork => artwork.Id == id);
         }
+
+        public IQueryable<Artwork> SearchByTags(List<int> tagIds)
+        {
+            var artworks = GetAll().Include(x => x.Tags).ToList();
+            foreach (var tagId in tagIds)
+            {
+                artworks = artworks.Where(a => a.Tags != null && a.Tags.Any(t => t.Id == tagId)).ToList();
+            }
+            return artworks.AsQueryable();
+        }
     }
 }

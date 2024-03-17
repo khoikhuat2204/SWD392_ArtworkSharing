@@ -1,11 +1,5 @@
 ﻿using Services.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataAccessLayer.DTOs.RequestDTO;
-using DataAccessLayer.Enum;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
@@ -43,19 +37,12 @@ namespace Services.Services
 
         public List<Artwork> SearchByTags(SearchByTagsDTO tags)
         {
-            var tagsId = tags.TagId;
-            var artworks = _artworkRepository.GetAll().Include(x => x.Tags).ToList();
-            foreach (var tag in tagsId)
-            {
-                artworks = artworks.Where(a => a.Tags.Any(t => t.Id == tag)).ToList();
-            }
-
-            return artworks;
+            return _artworkRepository.SearchByTags(tags.TagId).ToList();
         }
 
         public List<Artwork> SearchByName(string name)
         {
-            return _artworkRepository.GetAll().Where(x => x.Name.Contains(name)).ToList();
+            return _artworkRepository.GetAll().Where(x => (x.Name ?? string.Empty).Contains(name)).ToList();
         }
 
         public Artwork GetById(int id)
