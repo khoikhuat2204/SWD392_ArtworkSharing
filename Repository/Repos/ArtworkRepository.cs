@@ -2,11 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Repository.BaseRepository;
 using Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Repos
 {
@@ -20,6 +15,11 @@ namespace Repository.Repos
         public Artwork? GetById(int id)
         {
             return GetAll().FirstOrDefault(artwork => artwork.Id == id);
+        }
+
+        public IQueryable<Artwork> SearchByName(string name)
+        {
+            return GetAll().Where(x => (x.Name ?? string.Empty).Contains(name));
         }
 
         public IQueryable<Artwork> SearchByTags(List<int> tagIds)
