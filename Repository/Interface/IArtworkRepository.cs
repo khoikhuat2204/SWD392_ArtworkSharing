@@ -11,5 +11,6 @@ namespace Repository.Interface
     public interface IArtworkRepository : IBaseRepository<Artwork>
     {
         IQueryable<Artwork> GetAllByUserId(int id);
+
     }
 }
