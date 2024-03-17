@@ -21,7 +21,7 @@ namespace SWD392.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult login([FromBody] LoginDTO dto)
+        public IActionResult Login([FromBody] LoginDTO dto)
         {
             ResponseDTO<string> res = userService.Login(dto);
             if (res.statusCode == 200)
@@ -33,7 +33,7 @@ namespace SWD392.Controllers
         }
         
         [HttpPost("register")]
-        public IActionResult register([FromBody] RegisterDTO dto)
+        public IActionResult Register([FromBody] RegisterDTO dto)
         {
             ResponseDTO<string> res = userService.Register(dto);
             if (res.statusCode == 200)
