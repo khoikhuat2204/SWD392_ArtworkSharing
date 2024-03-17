@@ -44,7 +44,7 @@ namespace Services.Services
         public bool MakeReservation(ReservationRequestDTO reservationDto)
         {
             Artwork? artwork = _artworkRepository.GetById(reservationDto.ArtworkId);
-            if (artwork == null || artwork.ArtworkStatus == ArtworkStatus.Sold)
+            if (artwork == null || artwork.ArtworkStatus == ArtworkStatus.Sold || artwork.IsDeleted)
             {
                 return false;
             }
