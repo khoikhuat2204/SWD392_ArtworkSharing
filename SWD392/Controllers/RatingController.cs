@@ -41,12 +41,7 @@ namespace SWD392.Controllers
         {
             try
             {
-                if(rating.Score < 1 || rating.Score > 5)
-                    return BadRequest("Score must be between 1 and 5");
-                if(_userService.GetById(rating.UserId) == null)
-                    return BadRequest("User not found");
-                if (_artworkService.GetById(rating.ArtworkId) == null)
-                    return BadRequest("Artwork not found");
+                _ratingService.ValidateRating(rating);
                 
                 var mappedRating = _mapper.Map<Rating>(rating);
                 _ratingService.Add(mappedRating);
@@ -58,14 +53,33 @@ namespace SWD392.Controllers
             }
             
         }
+        [HttpGet("artwork/get-all-artwork-with-rating")]
+        public IActionResult GetAllArtworkWithRating()
+        {
+            var artworks = _artworkService.GetAll();
+            if(artworks.Count == 0)
+                return Ok("No artworks found");
+            
+            var mappedArtworks = _mapper.Map<List<ArtworkDetailDTO>>(artworks);
+            foreach (var artwork in mappedArtworks)
+            {
+                artwork.Rating = _ratingService.GetRatingOfAnArtwork(artwork.Id);
+            }
+            return Ok(mappedArtworks);
+        }
         
-        [HttpGet("get-rating-of-an-artwork/{artworkId}")]
+        [HttpGet("artwork/get-artwork-with-rating/{artworkId}")]
         public IActionResult GetRatingOfAnArtwork(int artworkId)
         {
             if (_artworkService.GetById(artworkId) == null)
                 return BadRequest("Artwork not found");
+            
             var rating = _ratingService.GetRatingOfAnArtwork(artworkId);
-            return Ok(rating);
+            var artwork = _artworkService.GetById(artworkId);
+            var mappedArtworks = _mapper.Map<ArtworkDetailDTO>(artwork);
+            mappedArtworks.Rating = rating;
+            return Ok(mappedArtworks);
         }
+        
     }
 }

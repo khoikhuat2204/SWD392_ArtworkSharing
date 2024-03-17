@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLayer.DTOs.RequestDTO;
 using DataAccessLayer.Models;
 
 namespace Services.Interface
@@ -17,5 +18,6 @@ namespace Services.Interface
 
         public void Remove(Rating rating);
         public float GetRatingOfAnArtwork(int artworkId);
+        public bool ValidateRating(CreateRatingDTO rating);
     }
 }
