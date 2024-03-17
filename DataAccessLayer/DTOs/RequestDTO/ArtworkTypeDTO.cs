@@ -8,7 +8,7 @@ namespace DataAccessLayer.DTOs.RequestDTO
 {
     public class ArtworkTypeDTO
     {
-        public int ArtworkId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

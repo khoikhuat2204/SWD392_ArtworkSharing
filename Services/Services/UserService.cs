@@ -42,6 +42,14 @@ namespace Services.Services
                     message = jwtToken
                 };
             }
+            if(existedUser.Password != dto.Password)
+            {
+                return new ResponseDTO<string>
+                {
+                    statusCode = 400,
+                    message = "Wrong username or password"
+                };
+            }
             return new ResponseDTO<string>
             {
                 statusCode = 500,

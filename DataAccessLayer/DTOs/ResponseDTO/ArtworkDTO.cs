@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Enum;
+using DataAccessLayer.Models;
 
 namespace DataAccessLayer.DTOs.RequestDTO;
 
