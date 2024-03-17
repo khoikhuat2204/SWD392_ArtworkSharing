@@ -7,7 +7,7 @@ using Services.Interface;
 namespace SWD392.Controllers;
 
 [ApiController]
-[Route("/")]
+[Route("api/[controller]")]
 public class FavoriteArtworkController : ControllerBase
 {
     private readonly IMapper _mapper;

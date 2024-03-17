@@ -8,6 +8,8 @@ using Services.Interface;
 
 namespace SWD392.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class SubscriptionController : Controller
 {
     private readonly ISubscriptionService _subscriptionService;

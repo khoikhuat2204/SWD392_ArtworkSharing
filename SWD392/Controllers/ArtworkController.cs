@@ -11,7 +11,7 @@ using Services.Interface;
 namespace SWD392.Controllers;
 
 [ApiController]
-[Route("/")]
+[Route("api/[controller]")]
 public class ArtworkController : Controller
 {
     private readonly IArtworkService _artworkService;

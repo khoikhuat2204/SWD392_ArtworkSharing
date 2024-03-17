@@ -9,7 +9,7 @@ using DataAccessLayer.DTOs.ResponseDTO;
 namespace SWD392.Controllers
 {
     [ApiController]
-    [Route("/")]
+    [Route("api/[controller]")]
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
