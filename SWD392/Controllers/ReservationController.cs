@@ -107,7 +107,7 @@ namespace SWD392.Controllers
         //     return Ok();
         // }
 
-        public IActionResult MakeReservation(ReservationRequestDTO reservation)
+        public IActionResult MakeReservation([FromBody] ReservationRequestDTO reservation)
         {
             if (_reservationService.MakeReservation(reservation))
             {
