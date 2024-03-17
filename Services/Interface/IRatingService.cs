@@ -16,5 +16,6 @@ namespace Services.Interface
         public void Update(Rating rating);
 
         public void Remove(Rating rating);
+        public float GetRatingOfAnArtwork(int artworkId);
     }
 }

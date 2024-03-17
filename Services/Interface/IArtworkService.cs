@@ -19,6 +19,7 @@ namespace Services.Interface
         public void Remove(Artwork artwork);
         public List<Artwork> SearchByTags(SearchByTagsDTO tags);
         public List<Artwork> SearchByName(string name);
+        public Artwork GetById(int id);
 
     }
 }

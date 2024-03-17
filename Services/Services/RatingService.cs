@@ -35,5 +35,13 @@ namespace Services.Services
         {
             _ratingRepository.Delete(rating);
         }
+
+        public float GetRatingOfAnArtwork(int artworkId)
+        {
+            var averageRating = _ratingRepository.GetAll()
+                .Where(r => r.ArtworkId == artworkId).Select(r => r.Score).Average();
+            float roundedNumber = (float)Math.Round(averageRating, 1);
+            return roundedNumber;
+        }
     }
 }

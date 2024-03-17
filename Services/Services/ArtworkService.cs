@@ -58,6 +58,11 @@ namespace Services.Services
             return _artworkRepository.GetAll().Where(x => x.Name.Contains(name)).ToList();
         }
 
+        public Artwork GetById(int id)
+        {
+            return _artworkRepository.GetById(id);
+        }
+
         public List<Artwork> GetAllByUserId(int id)
         {
             return _artworkRepository.GetAllByUserId(id).ToList();
