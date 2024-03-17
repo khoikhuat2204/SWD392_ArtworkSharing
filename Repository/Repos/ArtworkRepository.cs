@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository.BaseRepository;
 using Repository.Interface;
 using System;
@@ -15,5 +16,6 @@ namespace Repository.Repos
         {
             return GetAll().Where(x => x.UserId == id);
         }
+
     }
 }

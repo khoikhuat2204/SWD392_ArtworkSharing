@@ -119,5 +119,4 @@ public class ArtworkController : Controller
         return NoContent();
     }
 
-
 }
