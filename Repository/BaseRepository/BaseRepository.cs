@@ -19,10 +19,18 @@ namespace Repository.BaseRepository
             _dbSet = _context.Set<T>();
         }
 
-        public void Add(T entity)
+        public bool Add(T entity)
         {
-            _dbSet.Add(entity);
-            _context.SaveChanges();
+            try
+            {
+                _dbSet.Add(entity);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public void Delete(T entity)

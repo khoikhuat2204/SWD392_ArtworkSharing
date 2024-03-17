@@ -8,23 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DTOs.RequestDTO;
 using Services.Extensions;
+using AutoMapper;
 
 namespace Services.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository userRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
         private readonly TokenService _tokenService;
 
-        public UserService(IUserRepository userRepository, TokenService tokenService)
+        public UserService(IUserRepository userRepository, IMapper mapper, TokenService tokenService)
         {
-            this.userRepository = userRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
             _tokenService = tokenService;
         }
 
         public ResponseDTO<string> Login(LoginDTO dto)
         {
-            User? existedUser = userRepository.GetByEmail(dto.Email);
+            User? existedUser = _userRepository.Login(dto.Email ?? string.Empty, dto.Password ?? string.Empty);
             if (existedUser == null)
             {
                 return new ResponseDTO<string>
@@ -33,52 +36,45 @@ namespace Services.Services
                     message = "Wrong username or password"
                 };
             }
-            if (existedUser.Password == dto.Password)
-            {
-                var jwtToken = _tokenService.CreateTokenForAccount(existedUser);
-                return new ResponseDTO<string>
-                {
-                    statusCode = 200,
-                    message = jwtToken
-                };
-            }
-            if(existedUser.Password != dto.Password)
-            {
-                return new ResponseDTO<string>
-                {
-                    statusCode = 400,
-                    message = "Wrong username or password"
-                };
-            }
+            var jwtToken = _tokenService.CreateTokenForAccount(existedUser);
             return new ResponseDTO<string>
             {
-                statusCode = 500,
-                message = "Server Error"
+                statusCode = 200,
+                message = jwtToken
             };
         }
 
         public User GetById(int id)
         {
-            return userRepository.GetById(id);
+            return _userRepository.GetById(id);
         }
 
         public ResponseDTO<string> Register(RegisterDTO dto)
         {
-            User user = new User
+            // check email exists
+            User? existedUser = _userRepository.GetByEmail(dto.Email ?? string.Empty);
+            if (existedUser != null)
             {
-                Email = dto.Email,
-                Password = dto.Password,
-                FullName = dto.FullName,
-                Phone = dto.Phone,
-                Address = dto.Address,
-                Role = dto.Role,
-                IsDeleted = false
-            };
-            userRepository.Add(user);
+                return new ResponseDTO<string>
+                {
+                    statusCode = 400,
+                    message = "A user with this email already exists!"
+                };
+            }
+            User newUser = _mapper.Map<User>(dto);
+            newUser.IsDeleted = false;
+            if (_userRepository.Add(newUser))
+            {
+                return new ResponseDTO<string>
+                {
+                    statusCode = 200,
+                    message = "New user created"
+                };
+            }
             return new ResponseDTO<string>
             {
-                statusCode = 200,
-                message = "New user created"
+                statusCode = 400,
+                message = "Register failed! Please try again or contact us for more details."
             };
         }
     }
