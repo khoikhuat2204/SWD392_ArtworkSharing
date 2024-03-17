@@ -4,10 +4,11 @@ using System.Text;
 using DataAccessLayer.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Services.Interface;
 
 namespace Services.Extensions;
 
-public class TokenService
+public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;
 
