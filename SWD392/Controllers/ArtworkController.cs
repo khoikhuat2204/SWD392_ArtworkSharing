@@ -118,4 +118,24 @@ public class ArtworkController : Controller
         _artworkService.Remove(artwork);
         return NoContent();
     }
+    
+    [HttpPost("Search-By-Tags")]
+    public async Task<IActionResult> SearchByTags([FromBody]SearchByTagsDTO tags)
+    {
+        var artworks = _artworkService.SearchByTags(tags);
+        if (!artworks.Any())
+            return Ok("no artworks found with these tags");
+        var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
+        return Ok(mappedArtworks);
+    }
+    
+    [HttpGet("Search-By-Name/{name}")]
+    public async Task<IActionResult> SearchByName(string name)
+    {
+        var artworks = _artworkService.SearchByName(name);
+        if (!artworks.Any())
+            return Ok("no artworks found with this name");
+        var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
+        return Ok(mappedArtworks);
+    }
 }
