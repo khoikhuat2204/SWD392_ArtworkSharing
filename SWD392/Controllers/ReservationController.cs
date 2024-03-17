@@ -8,7 +8,7 @@ using DataAccessLayer.DTOs.ResponseDTO;
 namespace SWD392.Controllers
 {
     [ApiController]
-    [Route("reservation")]
+    [Route("api/[controller]")]
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
@@ -107,6 +107,7 @@ namespace SWD392.Controllers
         //     return Ok();
         // }
 
+        [HttpPost("make-reservation")]
         public IActionResult MakeReservation([FromBody] ReservationRequestDTO reservation)
         {
             if (_reservationService.MakeReservation(reservation))

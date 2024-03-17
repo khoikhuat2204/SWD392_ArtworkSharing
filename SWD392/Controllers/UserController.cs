@@ -8,7 +8,7 @@ using Services.Interface;
 namespace SWD392.Controllers
 {
     [ApiController]
-    [Route("/")]
+    [Route("api/[controller]")]
     public class UserController : Controller
     {
         private readonly IUserService userService;
