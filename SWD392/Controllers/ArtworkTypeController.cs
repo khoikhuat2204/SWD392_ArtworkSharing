@@ -7,7 +7,7 @@ using Services.Services;
 namespace SWD392.Controllers
 {
     [ApiController]
-    [Route("/")]
+    [Route("api/[controller]")]
     public class ArtworkTypeController : Controller
     {
         private readonly IArtworkTypeService _artworkTypeService;

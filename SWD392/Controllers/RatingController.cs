@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace SWD392.Controllers
 {
     [ApiController]
-    [Route("/")]
+    [Route("api/[controller]")]
     public class RatingController : ControllerBase
     {
         private readonly IRatingService _ratingService;

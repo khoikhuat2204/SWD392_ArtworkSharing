@@ -17,5 +17,9 @@ namespace Repository.Repos
             return GetAll().Where(x => x.UserId == id);
         }
 
+        public Artwork? GetById(int id)
+        {
+            return GetAll().FirstOrDefault(artwork => artwork.Id == id);
+        }
     }
 }
