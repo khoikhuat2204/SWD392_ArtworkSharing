@@ -13,5 +13,6 @@ namespace Repository.Interface
         User? Login(string email, string password);
         User? GetById(int id);
         User? GetByEmail(string email);
+        IQueryable<User> GetAllCreator();
     }
 }

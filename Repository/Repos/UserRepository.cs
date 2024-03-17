@@ -25,5 +25,10 @@ namespace Repository.Repos
         {
             return GetAll().ToList().Find(user => user.Id == id);
         }
+
+        public IQueryable<User> GetAllCreator()
+        {
+            return GetAll().Where(user => user.Role == DataAccessLayer.Enum.Role.Creator);
+        }
     }
 }
