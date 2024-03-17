@@ -10,5 +10,6 @@ namespace Repository.Interface
 {
     public interface IArtworkTypeRepository : IBaseRepository<ArtworkType>
     {
+        IQueryable<ArtworkType> GetArtworkTypesNotDeleted();
     }
 }
