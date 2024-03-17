@@ -61,26 +61,33 @@ public class ArtworkController : Controller
     {
         var userId = User.Identities.FirstOrDefault()?.Claims.FirstOrDefault(x => x.Type == "userId")?.Value ?? string.Empty;
 
-        var imageUrls = new List<string?>();
-        var imageExtension = ImageExtension.ImageExtensionChecker(uploadArtworkDto.ImageUploadRequest.FileName);
-        var uri = (await _azureService.UploadImage(uploadArtworkDto.ImageUploadRequest, null, "post", imageExtension, false))?.Blob.Uri;
-        imageUrls.Add(uri);
-
-        var createdArtwork = new Artwork()
+        if (_artworkService.CheckSubscriptionForUpload(Int32.Parse(userId)))
         {
-            UserId = Int32.Parse(userId),
-            CreatedDate = DateTime.Now,
-            Name = uploadArtworkDto.Name,
-            Description = uploadArtworkDto.Description,
-            Price = uploadArtworkDto.Price,
-            TypeId = uploadArtworkDto.TypeId,
-            ArtworkStatus = uploadArtworkDto.ArtworkStatus,
-            IsDeleted = false,
-            ImagePath = imageUrls[0],
-        };
+            var imageUrls = new List<string?>();
+            var imageExtension = ImageExtension.ImageExtensionChecker(uploadArtworkDto.ImageUploadRequest.FileName);
+            var uri = (await _azureService.UploadImage(uploadArtworkDto.ImageUploadRequest, null, "post", imageExtension, false))?.Blob.Uri;
+            imageUrls.Add(uri);
 
-        _artworkService.Add(createdArtwork);
-        return Ok();
+            var createdArtwork = new Artwork()
+            {
+                UserId = Int32.Parse(userId),
+                CreatedDate = DateTime.Now,
+                Name = uploadArtworkDto.Name,
+                Description = uploadArtworkDto.Description,
+                Price = uploadArtworkDto.Price,
+                TypeId = uploadArtworkDto.TypeId,
+                ArtworkStatus = uploadArtworkDto.ArtworkStatus,
+                IsDeleted = false,
+                ImagePath = imageUrls[0],
+            };
+            _artworkService.Add(createdArtwork);
+            return Ok(createdArtwork);
+        }
+        else
+        {
+            return BadRequest("You have reached your upload limit for today or you have exceeded your total upload limit");
+        }
+        
     }
 
     [Authorize(Roles = "Creator")]
