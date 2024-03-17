@@ -122,7 +122,7 @@ public class ArtworkController : Controller
         return NoContent();
     }
     
-    [HttpPost("Search-By-Tags")]
+    [HttpPost("search-by-tags")]
     public async Task<IActionResult> SearchByTags([FromBody]SearchByTagsDTO tags)
     {
         var artworks = _artworkService.SearchByTags(tags);
@@ -132,7 +132,7 @@ public class ArtworkController : Controller
         return Ok(mappedArtworks);
     }
     
-    [HttpGet("Search-By-Name/{name}")]
+    [HttpGet("search-by-name/{name}")]
     public async Task<IActionResult> SearchByName(string name)
     {
         var artworks = _artworkService.SearchByName(name);
