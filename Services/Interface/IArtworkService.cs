@@ -16,6 +16,8 @@ namespace Services.Interface
         public void Update(Artwork artwork);
 
         public void Remove(Artwork artwork);
+        
+        public bool CheckSubscriptionForUpload(int userId);
 
     }
 }
