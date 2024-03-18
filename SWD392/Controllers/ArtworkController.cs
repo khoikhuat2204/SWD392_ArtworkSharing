@@ -168,4 +168,20 @@ public class ArtworkController : Controller
         mappedArtworks.Rating = rating;
         return Ok(mappedArtworks);
     }
+
+
+    [HttpGet("sell-artwork/{artworkId}")]
+    public async Task<IActionResult> SellArtwork(int id)
+    {
+
+        var artwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
+        if (artwork == null)
+        {
+            return NotFound();
+        }
+
+        artwork.ArtworkStatus = (DataAccessLayer.Enum.ArtworkStatus)2;
+        _artworkService.Update(artwork);
+        return NoContent();
+    }
 }
