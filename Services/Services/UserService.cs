@@ -51,7 +51,7 @@ namespace Services.Services
 
         public int GetIdByEmail(string email)
         {
-            return userRepository.GetIdByEmail(email);
+            return _userRepository.GetIdByEmail(email);
         }
 
         public ResponseDTO<string> Register(RegisterDTO dto)
@@ -85,7 +85,7 @@ namespace Services.Services
 
         public string GetNameByEmail(string email)
         {
-            return userRepository.GetNameByEmail(email);
+            return _userRepository.GetNameByEmail(email);
         }
 
         public List<User> GetAllCreator()

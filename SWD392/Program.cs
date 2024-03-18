@@ -41,8 +41,8 @@ builder.Services.AddSingleton<Services.Extensions.TokenService>();
 builder.Services.AddTransient<ISubscriptionService, Services.Services.SubscriptionService>();
 builder.Services.AddSingleton<Stripe.TokenService>();
 
-builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();
-builder.Services.AddTransient<ITokenService, TokenService>();
+/*builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();*/
+builder.Services.AddTransient<ITokenService, Services.Extensions.TokenService>();
 
 
 
