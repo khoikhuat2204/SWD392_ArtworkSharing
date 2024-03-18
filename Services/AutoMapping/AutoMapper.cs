@@ -70,6 +70,7 @@ public class AutoMapper: Profile
     private void MapUser()
     {
         CreateMap<User, UserDTO>().ReverseMap();
+        CreateMap<User, ViewAccountDTO>().ReverseMap();
     }
     
     private void MapRating()

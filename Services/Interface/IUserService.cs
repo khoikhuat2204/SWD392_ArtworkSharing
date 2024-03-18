@@ -12,5 +12,6 @@ namespace Services.Interface
         public User GetById(int id);
 
         List<User> GetAllCreator();
+        List<User> GetAllUsers();
     }
 }
