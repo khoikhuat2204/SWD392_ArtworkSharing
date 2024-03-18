@@ -18,8 +18,6 @@ namespace DataAccessLayer.Models
 
         [ForeignKey(nameof(Models.User))]
         public int UserId { get; set; }
-        [ForeignKey(nameof(Models.Package))]
-        public int PackageId { get; set; }
         
         public bool IsDeleted { get; set; } = false;
         

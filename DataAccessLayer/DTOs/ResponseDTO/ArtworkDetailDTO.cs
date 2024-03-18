@@ -1,9 +1,8 @@
 ﻿using DataAccessLayer.Enum;
-using DataAccessLayer.Models;
 
-namespace DataAccessLayer.DTOs.RequestDTO;
+namespace DataAccessLayer.DTOs.ResponseDTO;
 
-public class ArtworkDTO
+public class ArtworkDetailDTO
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -14,4 +13,5 @@ public class ArtworkDTO
     public int UserId { get; set; }
     public DateTime CreatedDate { get; set; }
     public ArtworkStatus ArtworkStatus { get; set; }
+    public float Rating { get; set; }
 }
