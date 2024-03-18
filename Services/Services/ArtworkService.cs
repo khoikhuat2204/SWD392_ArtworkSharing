@@ -43,8 +43,10 @@ namespace Services.Services
             var subscription = _subscriptionService.GetAllActiveSubscriptions()
                 .Include(c => c.Package)
                 .FirstOrDefault(c => c.UserId == userId);
-            var artworksCreatedToday = GetAll().Where(c => c.UserId == userId && c.CreatedDate.Date == DateTime.Today).ToList();
-            var allArtworks = GetAll().Where(c => c.UserId.Equals(userId) && c.CreatedDate > subscription.StartDate).ToList();
+            var artworksCreatedToday =
+                GetAll().Where(c => c.UserId == userId && c.CreatedDate.Date == DateTime.Today).ToList();
+            var allArtworks = GetAll().Where(c => c.UserId.Equals(userId) && c.CreatedDate > subscription.StartDate)
+                .ToList();
 
             if (subscription == null)
                 return false;
@@ -52,12 +54,15 @@ namespace Services.Services
             {
                 return false;
             }
+
             if (allArtworks.Count() >= subscription.Package.TotalUploads)
             {
                 return false;
             }
 
             return true;
+
+        }
 
         public List<Artwork> SearchByTags(SearchByTagsDTO tags)
         {
