@@ -16,9 +16,9 @@ namespace Services.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, TokenService tokenService)
+        public UserService(IUserRepository userRepository, IMapper mapper, ITokenService tokenService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
