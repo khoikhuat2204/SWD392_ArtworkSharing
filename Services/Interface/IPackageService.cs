@@ -13,7 +13,7 @@ namespace Services.Interface
 
         public void Add(Package package);
 
-        public void Update(Package package);
+        public bool Update(Package package);
 
         public void Remove(Package package);
     }
