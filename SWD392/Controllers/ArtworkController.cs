@@ -36,7 +36,7 @@ public class ArtworkController : Controller
     {
         var artworks = _artworkService.GetAll();
         if (!artworks.Any())
-            return NotFound();
+            return Ok("No artworks found");
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
         return Ok(mappedArtworks);
     }
@@ -46,7 +46,7 @@ public class ArtworkController : Controller
     {
         var artworks = _artworkService.GetAllByUserId(id);
         if (!artworks.Any())
-            return NotFound();
+            return Ok("No artworks found");
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
         return Ok(mappedArtworks);
     }
@@ -56,9 +56,11 @@ public class ArtworkController : Controller
     {
         var artwork = _artworkService.GetAll().Find(x => x.Id.Equals(id));
         if (artwork == null)
-            return NotFound();
+             return Ok("No artworks found");
         var creator = _userService.GetAllCreator().Find(x => x.Id.Equals(artwork.UserId));
         var mappedCreator = _mapper.Map<UserDTO>(creator);
+
+           
         var mappedArtworks = _mapper.Map<ArtworkDTO>(artwork);
         mappedArtworks.Creator = mappedCreator;
         return Ok(mappedArtworks);
@@ -94,7 +96,7 @@ public class ArtworkController : Controller
         }
         else
         {
-            return BadRequest("You have reached your upload limit for today or you have exceeded your total upload limit");
+            return BadRequest("You don't have a subscription or you have reached your upload limit for today or you have exceeded your total upload limit");
         }
     }
 
@@ -105,11 +107,11 @@ public class ArtworkController : Controller
         var existingArtwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
         if (id == 0)
         {
-            return BadRequest();
+            return BadRequest("Id must not be 0");
         }
         if (existingArtwork == null)
         {
-            return NotFound();
+            return Ok("No artworks found");
         }
 
         existingArtwork.Name = updateArtworkDto.Name;

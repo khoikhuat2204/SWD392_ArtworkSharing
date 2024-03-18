@@ -16,5 +16,6 @@ namespace Repository.Interface
         int GetIdByEmail(string email);
         string GetNameByEmail(string email);
         IQueryable<User> GetAllCreator();
+        IQueryable<User> GetAllUsers();
     }
 }

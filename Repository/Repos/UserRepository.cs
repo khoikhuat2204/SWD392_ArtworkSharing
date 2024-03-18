@@ -44,5 +44,10 @@ namespace Repository.Repos
         {
             return GetAll().Where(user => user.Role == DataAccessLayer.Enum.Role.Creator);
         }
+
+        public IQueryable<User> GetAllUsers()
+        {
+            return GetAll().Where(u => u.Role != DataAccessLayer.Enum.Role.Admin);
+        }
     }
 }

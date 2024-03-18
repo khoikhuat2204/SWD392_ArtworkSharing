@@ -16,5 +16,6 @@ namespace Services.Interface
         public string GetNameByEmail(string email);
 
         List<User> GetAllCreator();
+        List<User> GetAllUsers();
     }
 }

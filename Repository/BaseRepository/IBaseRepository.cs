@@ -10,7 +10,7 @@ namespace Repository.BaseRepository
     {
         IQueryable<T> GetAll();
         bool Add(T entity);
-        void Update(T entity);
+        bool Update(T entity);
         void Delete(T entity);
     }
 }

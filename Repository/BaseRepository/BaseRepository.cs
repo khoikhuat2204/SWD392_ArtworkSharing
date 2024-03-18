@@ -44,10 +44,19 @@ namespace Repository.BaseRepository
             return _dbSet.AsNoTracking();
         }
 
-        public void Update(T entity)
+        public bool Update(T entity)
         {
-            _dbSet.Update(entity);
-            _context.SaveChanges();
+            try
+            {
+                _dbSet.Update(entity);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         public ASPContext GetContext()

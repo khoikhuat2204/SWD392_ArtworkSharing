@@ -92,5 +92,10 @@ namespace Services.Services
         {
             return _userRepository.GetAllCreator().ToList();
         }
+
+        public List<User> GetAllUsers()
+        {
+            return _userRepository.GetAllUsers().ToList();
+        }
     }
 }

@@ -27,9 +27,18 @@ namespace Services.Services
             _packageRepository.Add(package);
         }
 
-        public void Update(Package package)
+        public bool Update(Package package)
         {
-            _packageRepository.Update(package);
+            try
+            {
+                _packageRepository.Update(package);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         public void Remove(Package package)
