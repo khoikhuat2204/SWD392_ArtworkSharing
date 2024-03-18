@@ -14,10 +14,10 @@ namespace SWD392.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IMapper mapper, TokenService tokenService)
+        public UserController(IUserService userService, IMapper mapper, ITokenService tokenService)
         {
             this.userService = userService;
             this._mapper = mapper;
