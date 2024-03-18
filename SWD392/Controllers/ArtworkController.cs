@@ -116,18 +116,34 @@ public class ArtworkController : Controller
         return NoContent();
     }
 
+    /*    [HttpDelete("delete-artwork/{id}")]
+        public async Task<IActionResult> DeleteArtwork(int id)
+        {
+            var artwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
+            if (artwork == null)
+            {
+                return NotFound();
+            }
+            _artworkService.Remove(artwork);
+            return NoContent();
+        }*/
+
     [HttpDelete("delete-artwork/{id}")]
     public async Task<IActionResult> DeleteArtwork(int id)
     {
-        var artwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
-        if (artwork == null)
+        var result = _artworkService.DeleteByArtwork(id);
+        if (result)
         {
-            return NotFound();
+            return Ok();
         }
-        _artworkService.Remove(artwork);
-        return NoContent();
+        else
+        {
+            return BadRequest();
+        }
     }
-    
+
+
+
     [HttpPost("search-by-tags")]
     public async Task<IActionResult> SearchByTags([FromBody]SearchByTagsDTO tags)
     {

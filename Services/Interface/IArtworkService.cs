@@ -10,7 +10,7 @@ namespace Services.Interface
         public void Add(Artwork artwork);
         public void Update(Artwork artwork);
         public void Remove(Artwork artwork);
-        
+        public bool DeleteByArtwork(int artworkId);
         public bool CheckSubscriptionForUpload(int userId);
         public List<Artwork> SearchByTags(SearchByTagsDTO tags);
         public List<Artwork> SearchByName(string name);

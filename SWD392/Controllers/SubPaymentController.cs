@@ -113,6 +113,7 @@ namespace SWD392.Controllers
             var name = _userService.GetNameByEmail(email);
             var packageId = _packageService.GetPackageIdByName(package);
             var packageData = _packageService.GetPackageByName(package);
+            var planId = plan == "Yearly" ? packageData.YearlyStripePlanId : packageData.MonthlyStripePlanId;
 
             var customerOptions = new CustomerCreateOptions
             {
@@ -123,7 +124,6 @@ namespace SWD392.Controllers
 
             var customerService = new CustomerService();
             var customer = customerService.Create(customerOptions);
-            var planId = plan == "Yearly" ? packageData.YearlyStripePlanId : packageData.MonthlyStripePlanId;
             /*            var planId = _configuration.GetSection($"Stripe:Packages:{package}:{plan}PlanId").Value;*/
             // planid = _PackageService.GetPlanIdByName(plan);
 
