@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Repository.Interface;
 using Services.Extensions;
 using Services.Interface;
+using DataAccessLayer.DTOs.ResponseDTO;
 
 namespace SWD392.Controllers;
 
@@ -15,14 +16,16 @@ namespace SWD392.Controllers;
 public class ArtworkController : Controller
 {
     private readonly IArtworkService _artworkService;
+    private readonly IUserService _userService;
     private readonly IMapper _mapper;
     private readonly IAzureService _azureService;
 
-    public ArtworkController(IArtworkService artworkService, IMapper mapper, IAzureService azureService)
+    public ArtworkController(IArtworkService artworkService, IUserService userService, IMapper mapper, IAzureService azureService)
     {
         _artworkService = artworkService;
         _mapper = mapper;
         _azureService = azureService;
+        _userService = userService;
     }
 
     [HttpGet("get-all-artworks")]
@@ -51,7 +54,10 @@ public class ArtworkController : Controller
         var artwork = _artworkService.GetAll().Find(x => x.Id.Equals(id));
         if (artwork == null)
             return NotFound();
+        var creator = _userService.GetAllCreator().Find(x => x.Id.Equals(artwork.UserId));
+        var mappedCreator = _mapper.Map<UserDTO>(creator);
         var mappedArtworks = _mapper.Map<ArtworkDTO>(artwork);
+        mappedArtworks.Creator = mappedCreator;
         return Ok(mappedArtworks);
     }
 
