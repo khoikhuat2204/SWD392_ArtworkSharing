@@ -15,6 +15,7 @@ namespace DataAccessLayer.Models
         [Column("rating_Id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Range(1, 5, ErrorMessage = "Score must be between 1 and 5.")]
         public int Score { get; set; }
 
         [ForeignKey(nameof(Models.User))]
@@ -22,7 +23,7 @@ namespace DataAccessLayer.Models
         
         [ForeignKey(nameof(Models.Artwork))]
         public int ArtworkId { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         [JsonIgnore]
         public User? User { get; set; }

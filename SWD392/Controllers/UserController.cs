@@ -1,4 +1,6 @@
-﻿using DataAccessLayer.DTOs.RequestDTO;
+﻿using AutoMapper;
+using DataAccessLayer.DTOs.RequestDTO;
+using DataAccessLayer.DTOs.ResponseDTO;
 using DataAccessLayer.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +14,15 @@ namespace SWD392.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
+        private readonly TokenService _tokenService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper, TokenService tokenService)
         {
             this.userService = userService;
+            this._mapper = mapper;
+            _tokenService = tokenService;
+
         }
 
         [HttpPost("login")]
@@ -40,6 +47,16 @@ namespace SWD392.Controllers
             }
 
             return StatusCode(res.statusCode, res.message);
+        }
+
+        [HttpGet("get-creators")]
+        public IActionResult GetAllCreators()
+        {
+            var users = userService.GetAllCreator();
+            if (!users.Any())
+                return NotFound();
+            var mappedUsers = users.Select(p => _mapper.Map<UserDTO>(p)).ToList();
+            return Ok(mappedUsers);
         }
     }
 }

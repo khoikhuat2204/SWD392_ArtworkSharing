@@ -10,5 +10,7 @@ namespace Services.Interface
         ResponseDTO<string> Login(LoginDTO dto);
         
         public User GetById(int id);
+
+        List<User> GetAllCreator();
     }
 }

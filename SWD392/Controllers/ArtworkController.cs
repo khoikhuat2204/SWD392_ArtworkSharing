@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataAccessLayer.DTOs.RequestDTO;
+using DataAccessLayer.DTOs.ResponseDTO;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,14 @@ public class ArtworkController : Controller
     private readonly IArtworkService _artworkService;
     private readonly IMapper _mapper;
     private readonly IAzureService _azureService;
+    private readonly IRatingService _ratingService;
 
-    public ArtworkController(IArtworkService artworkService, IMapper mapper, IAzureService azureService)
+    public ArtworkController(IArtworkService artworkService, IMapper mapper, IAzureService azureService, IRatingService ratingService)
     {
         _artworkService = artworkService;
         _mapper = mapper;
         _azureService = azureService;
+        _ratingService = ratingService;
     }
 
     [HttpGet("get-all-artworks")]
@@ -123,5 +126,52 @@ public class ArtworkController : Controller
         }
         _artworkService.Remove(artwork);
         return NoContent();
+    }
+    
+    [HttpPost("search-by-tags")]
+    public async Task<IActionResult> SearchByTags([FromBody]SearchByTagsDTO tags)
+    {
+        var artworks = _artworkService.SearchByTags(tags);
+        if (!artworks.Any())
+            return Ok("no artworks found with these tags");
+        var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
+        return Ok(mappedArtworks);
+    }
+    
+    [HttpGet("search-by-name/{name}")]
+    public async Task<IActionResult> SearchByName(string name)
+    {
+        var artworks = _artworkService.SearchByName(name);
+        if (!artworks.Any())
+            return Ok("no artworks found with this name");
+        var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
+        return Ok(mappedArtworks);
+    }
+    [HttpGet("get-all-artwork-with-rating")]
+    public IActionResult GetAllArtworkWithRating()
+    {
+        var artworks = _artworkService.GetAll();
+        if(artworks.Count == 0)
+            return Ok("No artworks found");
+            
+        var mappedArtworks = _mapper.Map<List<ArtworkDetailDTO>>(artworks);
+        foreach (var artwork in mappedArtworks)
+        {
+            artwork.Rating = _ratingService.GetRatingOfAnArtwork(artwork.Id);
+        }
+        return Ok(mappedArtworks);
+    }
+        
+    [HttpGet("get-artwork-with-rating/{artworkId}")]
+    public IActionResult GetRatingOfAnArtwork(int artworkId)
+    {
+        if (_artworkService.GetById(artworkId) == null)
+            return BadRequest("Artwork not found");
+            
+        var rating = _ratingService.GetRatingOfAnArtwork(artworkId);
+        var artwork = _artworkService.GetById(artworkId);
+        var mappedArtworks = _mapper.Map<ArtworkDetailDTO>(artwork);
+        mappedArtworks.Rating = rating;
+        return Ok(mappedArtworks);
     }
 }

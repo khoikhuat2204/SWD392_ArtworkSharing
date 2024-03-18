@@ -1,10 +1,5 @@
 ﻿using Services.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccessLayer.Enum;
+using DataAccessLayer.DTOs.RequestDTO;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
@@ -42,6 +37,7 @@ namespace Services.Services
              _artworkRepository.Delete(artwork);
         }
 
+
         public bool CheckSubscriptionForUpload(int userId)
         {
             var subscription = _subscriptionService.GetAllActiveSubscriptions()
@@ -62,6 +58,21 @@ namespace Services.Services
             }
 
             return true;
+
+        public List<Artwork> SearchByTags(SearchByTagsDTO tags)
+        {
+            return _artworkRepository.SearchByTags(tags.TagId).ToList();
+        }
+
+        public List<Artwork> SearchByName(string name)
+        {
+            return _artworkRepository.SearchByName(name).ToList();
+        }
+
+        public Artwork GetById(int id)
+        {
+            return _artworkRepository.GetById(id);
+
         }
 
         public List<Artwork> GetAllByUserId(int id)
