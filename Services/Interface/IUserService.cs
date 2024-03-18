@@ -17,5 +17,6 @@ namespace Services.Interface
 
         List<User> GetAllCreator();
         List<User> GetAllUsers();
+        public bool UpdateProfile(User user);
     }
 }
