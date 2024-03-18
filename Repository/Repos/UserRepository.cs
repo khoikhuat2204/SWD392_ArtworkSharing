@@ -11,6 +11,11 @@ namespace Repository.Repos
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
+        public User? Login(string email, string password)
+        {
+            return GetAll().FirstOrDefault(user => user.Email == email && user.Password == password);
+        }
+
         public User? GetByEmail(string email)
         {
             return GetAll().ToList().Find(user => user.Email == email);
@@ -19,6 +24,11 @@ namespace Repository.Repos
         public User? GetById(int id)
         {
             return GetAll().ToList().Find(user => user.Id == id);
+        }
+
+        public IQueryable<User> GetAllCreator()
+        {
+            return GetAll().Where(user => user.Role == DataAccessLayer.Enum.Role.Creator);
         }
     }
 }

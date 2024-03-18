@@ -15,7 +15,10 @@ public class AutoMapper: Profile
         MapReport();
         MapPackage();
         MapActiveSubscription();
+        MapRegister();
         MapArtworkType();
+        MapUser();
+        MapRating();
     }
     
     private void MapReport()
@@ -33,11 +36,9 @@ public class AutoMapper: Profile
     private void MapArtwork()
     {
         CreateMap<Artwork, UploadArtworkDTO>().ReverseMap();
-        CreateMap<UploadArtworkDTO, Artwork>().ReverseMap();
         CreateMap<Artwork, ArtworkDTO>().ReverseMap();
-        CreateMap<ArtworkDTO, Artwork>().ReverseMap();
         CreateMap<Artwork, UpdateArtworkDTO>().ReverseMap();
-        CreateMap<UpdateArtworkDTO, Artwork>().ReverseMap();
+        CreateMap<Artwork, ArtworkDetailDTO>().ReverseMap();
     }
 
     private void MapAccount()
@@ -56,8 +57,24 @@ public class AutoMapper: Profile
         CreateMap<ActiveSubscription, CreateSubscriptionDTO>().ReverseMap();
     }
 
+    private void MapRegister()
+    {
+        CreateMap<User, RegisterDTO>().ReverseMap();
+    }
+
     private void MapArtworkType()
     {
         CreateMap<ArtworkType, ArtworkTypeDTO>().ReverseMap();
+    }
+
+    private void MapUser()
+    {
+        CreateMap<User, UserDTO>().ReverseMap();
+    }
+    
+    private void MapRating()
+    {
+        CreateMap<Rating, CreateRatingDTO>().ReverseMap();
+        CreateMap<Rating, RatingResponseDTO>().ReverseMap();
     }
 }

@@ -11,7 +11,7 @@ namespace SWD392.Controllers;
 
 
 [ApiController]
-[Route("/")]
+[Route("api/[controller]")]
 
     public class PackageController : ControllerBase
     {
