@@ -23,7 +23,7 @@ namespace Repository.Repos
 
         public User? GetById(int id)
         {
-            return GetAll().ToList().Find(user => user.Id == id);
+            return GetAll().FirstOrDefault(user => user.Id == id);
         }
 
         public IQueryable<User> GetAllCreator()
