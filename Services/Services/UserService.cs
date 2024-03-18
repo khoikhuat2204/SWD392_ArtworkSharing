@@ -16,9 +16,9 @@ namespace Services.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, TokenService tokenService)
+        public UserService(IUserRepository userRepository, IMapper mapper, ITokenService tokenService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -49,6 +49,11 @@ namespace Services.Services
             return _userRepository.GetById(id);
         }
 
+        public int GetIdByEmail(string email)
+        {
+            return _userRepository.GetIdByEmail(email);
+        }
+
         public ResponseDTO<string> Register(RegisterDTO dto)
         {
             // check email exists
@@ -76,6 +81,11 @@ namespace Services.Services
                 statusCode = 400,
                 message = "Register failed! Please try again or contact us for more details."
             };
+        }
+
+        public string GetNameByEmail(string email)
+        {
+            return _userRepository.GetNameByEmail(email);
         }
 
         public List<User> GetAllCreator()

@@ -11,4 +11,10 @@ public interface ISubscriptionService
     public void UpdateSubscription(ActiveSubscription activeSubscription);
     
     public void RemoveSubscription(ActiveSubscription activeSubscription);
+
+    public IQueryable<ActiveSubscription> GetAllActiveSubscriptionsByUserId(int userId);
+
+    public ActiveSubscription? GetActiveSubscriptionById(int id);
+
+    public string GetStripeSubscriptionIdBySubscriptionId(int subscriptionId);
 }

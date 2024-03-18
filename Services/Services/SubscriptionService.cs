@@ -30,4 +30,20 @@ public class SubscriptionService : ISubscriptionService
     {
         _activeSubscriptionRepository.Delete(activeSubscription);
     }
+
+    // Get all active subscriptions by subscription id
+    public IQueryable<ActiveSubscription> GetAllActiveSubscriptionsByUserId(int userId)
+    {
+        return _activeSubscriptionRepository.GetAll().Where(a => a.UserId == userId);
+    }
+
+    public ActiveSubscription? GetActiveSubscriptionById(int id)
+    {
+        return _activeSubscriptionRepository.GetSubscriptionById(id);
+    }
+
+    public string GetStripeSubscriptionIdBySubscriptionId(int subscriptionId)
+    {
+        return _activeSubscriptionRepository.GetStripeSubscriptionIDById(subscriptionId);
+    }
 }

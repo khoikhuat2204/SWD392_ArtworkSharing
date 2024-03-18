@@ -20,6 +20,8 @@ namespace DataAccessLayer.Models
         public int UploadsPerDay { get; set; }
         public int TotalUploads { get; set; }
         public bool IsDeleted { get; set; }
+        public string? MonthlyStripePlanId { get; set; } // Added MonthlyStripePlanId
+        public string? YearlyStripePlanId { get; set; } // Added YearlyStripePlanId
 
         public ICollection<ActiveSubscription>? ActiveSubscriptions { get; set; }
     }
