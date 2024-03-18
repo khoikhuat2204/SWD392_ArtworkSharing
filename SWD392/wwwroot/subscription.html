@@ -6,39 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <form method="post" id="payment-form" style="width:50%;">
-<!--        <input name="__RequestVerificationToken" type="hidden" value="CSRF-TOKEN-HERE">-->
-        <div class="container">
-            <div class="form-row">
-                <label for="card-element">
-                    Credit or debit card
-                </label>
-                <div id="card-element" style="width:100%;">
-                    <!-- A Stripe Element will be inserted here. -->
-                </div>
-
-                <!-- Used to display form errors. -->
-                <div id="card-errors" role="alert"></div>
-            </div>
-            <div class="form-row">
-                <label for="email">
-                    Email
-                </label>
-                <div style="width:100%;">
-                    <input name="email" id="email" />
-                </div>
-            </div>
-            <div class="form-row">
-                <label for="package">
-                    Package
-                </label>
-                <div style="width:100%;">
-                    <select name="package" id="package">
-                        <option value="Package1">Package 1</option>
-                        <option value="Package2">Package 2</option>
-<!--                        <option value="Package3">Package 3</option>
-                        <option value="Package4">Package 4</option>-->
-                    </select>
+    <!--<form method="post" id="payment-form" style="width:50%;">-->
+    <!--        <input name="__RequestVerificationToken" type="hidden" value="CSRF-TOKEN-HERE">-->
+    <!--<div class="container">
+        <div class="form-row">
+            <label for="card-element">
+                Credit or debit card
+            </label>
+            <div id="card-element" style="width:100%;">-->
+    <!-- A Stripe Element will be inserted here. -->
+    <!--</div>-->
+    <!-- Used to display form errors. -->
+    <!--<div id="card-errors" role="alert"></div>
+    </div>
+    <div class="form-row">
+        <label for="email">
+            Email
+        </label>
+        <div style="width:100%;">
+            <input name="email" id="email" />
+        </div>
+    </div>
+    <div class="form-row">
+        <label for="package">
+            Package
+        </label>
+        <div style="width:100%;">
+            <select name="package" id="package">
+                <option value="Package1">Package 1</option>
+                <option value="Package2">Package 2</option>-->
+    <!--                        <option value="Package3">Package 3</option>
+                            <option value="Package4">Package 4</option>-->
+    <!--</select>
                 </div>
             </div>
             <div class="form-row">
@@ -52,158 +51,292 @@
             </div>
             <button>Make Subscription</button>
         </div>
-    </form>
+    </form>-->
 
-    <script src="https://js.stripe.com/v3/"></script>
 
-    <script>
-        // Create a Stripe client and get Stripe API key
-                var stripe = Stripe('pk_test_51OsHZUGbEbQ0nPlDmozfqb0YVCLTp9jIhOZKwxbIDfYoQOR8yz5lyJdjTtRKN4mkOJVi2LDHAw86ksdapAFb3wUn00lnJawmvD'); // Replace with your Stripe public key
-/*        var stripe = Stripe('@ViewBag.stripeKey');*/
+        <form method="post" id="payment-form" style="width:50%;">
+            <div class="container">
+                <div class="form-row">
+                    <label for="card-element">
+                        Credit or debit card
+                    </label>
+                    <div id="card-element" style="width:100%;">
+                        <!-- A Stripe Element will be inserted here. -->
+                    </div>
 
-        // Create an instance of Elements.
-        var elements = stripe.elements();
+                    <!-- Used to display form errors. -->
+                    <div id="card-errors" role="alert"></div>
+                </div>
+                <div class="form-row">
+                    <label for="email">
+                        Email
+                    </label>
+                    <div style="width:100%;">
+                        <input name="email" id="email" />
+                    </div>
+                </div>
+                <button>Make Subscription</button>
+            </div>
+        </form>
 
-        // Custom styling can be passed to options when creating an Element.
-        // (Note that this demo uses a wider set of styles than the guide below.)
-        var style = {
-            base: {
-                color: '#32325d',
-                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                fontSmoothing: 'antialiased',
-                fontSize: '16px',
-                '::placeholder': {
-                    color: '#aab7c4'
-                }
-            },
-            invalid: {
-                color: '#fa755a',
-                iconColor: '#fa755a'
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+    // ON LOAD!!!!!!!!!!!!!!!
+    window.onload = function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var package = urlParams.get('package');
+        var plan = urlParams.get('plan');
+
+        // Now you can use the package and plan in your JavaScript code
+        console.log('Package:', package);
+        console.log('Plan:', plan);
+    }
+
+
+    // Create a Stripe client and get Stripe API key
+    var stripe = Stripe('pk_test_51OsHZUGbEbQ0nPlDmozfqb0YVCLTp9jIhOZKwxbIDfYoQOR8yz5lyJdjTtRKN4mkOJVi2LDHAw86ksdapAFb3wUn00lnJawmvD'); // Replace with your Stripe public key
+    /*        var stripe = Stripe('@ViewBag.stripeKey');*/
+
+    // Create an instance of Elements.
+    var elements = stripe.elements();
+
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
             }
-        };
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
 
-        // Create an instance of the card Element.
-        var card = elements.create('card', { style: style });
+    // Create an instance of the card Element.
+    var card = elements.create('card', { style: style });
 
-        // Add an instance of the card Element into the `card-element` <div>.
-        card.mount('#card-element');
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
 
-        // Handle real-time validation errors from the card Element.
-        card.addEventListener('change', function (event) {
-            var displayError = document.getElementById('card-errors');
-            if (event.error) {
-                displayError.textContent = event.error.message;
-            } else {
-                displayError.textContent = '';
-            }
-        });
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener('change', function (event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
 
-        // Handle form submission.
- /*       var form = document.getElementById('payment-form');
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
+    // Handle form submission.
+    /*       var form = document.getElementById('payment-form');
+           form.addEventListener('submit', function (event) {
+               event.preventDefault();
 
-            stripe.createToken(card).then(function (result) {
-                if (result.error) {
-                    // Inform the user if there was an error.
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    // Send the token to your server.
-                    stripeTokenHandler(result.token);
-                }
-            });
-        });
+               stripe.createToken(card).then(function (result) {
+                   if (result.error) {
+                       // Inform the user if there was an error.
+                       var errorElement = document.getElementById('card-errors');
+                       errorElement.textContent = result.error.message;
+                   } else {
+                       // Send the token to your server.
+                       stripeTokenHandler(result.token);
+                   }
+               });
+           });
 
-        // Submit the form with the token ID.
-        function stripeTokenHandler(token) {
-            // Insert the token ID into the form so it gets submitted to the server
-            var form = document.getElementById('payment-form');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
+           // Submit the form with the token ID.
+           function stripeTokenHandler(token) {
+               // Insert the token ID into the form so it gets submitted to the server
+               var form = document.getElementById('payment-form');
+               var hiddenInput = document.createElement('input');
+               hiddenInput.setAttribute('type', 'hidden');
+               hiddenInput.setAttribute('name', 'stripeToken');
+               hiddenInput.setAttribute('value', token.id);
+               form.appendChild(hiddenInput);
 
-            // Submit the form
-            form.submit();
-        }*/
+               // Submit the form
+               form.submit();
+           }*/
 
-        // Get RequestVerificationToken from server
-/*        window.onload = function () {
-            fetch('http://localhost:5272/get-antiforgery-token')
-                .then(response => response.text())
-                .then(token => {
-                    var form = document.getElementById('payment-form');
-                    var input = form.querySelector('input[name="__RequestVerificationToken"]');
-                    input.value = token;
-                });
-        };*/
+    // Get RequestVerificationToken from server
+    /*        window.onload = function () {
+                fetch('http://localhost:5272/get-antiforgery-token')
+                    .then(response => response.text())
+                    .then(token => {
+                        var form = document.getElementById('payment-form');
+                        var input = form.querySelector('input[name="__RequestVerificationToken"]');
+                        input.value = token;
+                    });
+            };*/
 
 
-        // Handle form submission.
-        var form = document.getElementById('payment-form');
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
+    // Handle form submission.
+    /*        var form = document.getElementById('payment-form');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
 
-            stripe.createToken(card).then(function (result) {
-                if (result.error) {
-                    // Inform the user if there was an error.
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    // Prepare the data
-                    var email = document.getElementById('email').value;
-                    var plan = document.querySelector('input[name="plan"]:checked').value;
-                    var package = document.getElementById('package').value; // Get the selected package
-                    var stripeToken = result.token.id;
+                stripe.createToken(card).then(function (result) {
+                    if (result.error) {
+                        // Inform the user if there was an error.
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        // Prepare the data
+                        var email = document.getElementById('email').value;
+                        var plan = document.querySelector('input[name="plan"]:checked').value;
+                        var package = document.getElementById('package').value; // Get the selected package
+                        var stripeToken = result.token.id;
+                        var subscriptionid = localStorage.getItem('subscriptionId');
 
-                    // Prepare the URL with query parameters
-                    var url = new URL('http://localhost:5272/subscribe');
-                    url.searchParams.append('email', email);
-                    url.searchParams.append('plan', plan);
-                    url.searchParams.append('package', package);
-                    url.searchParams.append('stripeToken', stripeToken);
-
-                    // Send the token to your server.
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            // 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                        // Prepare the URL with query parameters
+                        var url = new URL('http://localhost:5272/subscribe');
+                        url.searchParams.append('email', email);
+                        url.searchParams.append('plan', plan);
+                        url.searchParams.append('package', package);
+                        url.searchParams.append('stripeToken', stripeToken);
+                        // Only append the subscriptionid if it's not null
+                        if (subscriptionid !== null) {
+                            url.searchParams.append('subscriptionid', subscriptionid);
                         }
-                    }).then(function (response) {
-                        if (!response.ok) {
+
+                        // Send the token to your server.
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                // 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                            }
+                        }).then(function (response) {
+                            if (!response.ok) {
+                                console.log(email);
+                                console.log(plan);
+                                console.log(stripeToken);
+                                //throw error message so I can read
+                                return response.text().then(text => { throw new Error(text); });
+                            }
+                            return response.json(); // Parse the response as JSON
+                        }).then(function (data) {
+                            // Handle the response from your server
+                            // Redirect to the URL returned by the server
                             console.log(email);
                             console.log(plan);
                             console.log(stripeToken);
-                            //throw error message so I can read
-                            return response.text().then(text => { throw new Error(text); });
-                        }
-                        return response.json(); // Parse the response as JSON
-                    }).then(function (data) {
-                        // Handle the response from your server
-                        // Redirect to the URL returned by the server
+                            console.log('Here is the data: ', data);
+                            //Clear subscriptionId that pass from viewsub to local storage
+                            localStorage.removeItem('subscriptionId');
+                            if (data.status === 'updatesuccess') {
+                                // Show a success notification with the server message
+                                alert('Update success: ' + data.message);
+                                localStorage.setItem('subscription', data.response);
+                                window.location.href = data.redirectUrl;
+                            } else if (data.status === 'error') {
+                                // Show an error notification with the server message
+                                alert('Update error: ' + data.message);
+                            } else if (data.status === 'addsuccess') {
+                                // Store the subscription data in localStorage
+                                localStorage.setItem('subscription', data.response);
+                                window.location.href = data.redirectUrl;
+                            }
+                            // Show a notification with the server response
+    *//*                        alert('Server response: ' + data.response);*//*
+                        }).catch(function (error) {
+                            console.error('There has been a problem with your fetch operation:', error);
+                        });
+                    }
+                });
+            });*/
+
+    // Handle form submission.
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function (result) {
+            if (result.error) {
+                // Inform the user if there was an error.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                // Prepare the data
+                var email = document.getElementById('email').value;
+                var stripeToken = result.token.id;
+
+                var urlParams = new URLSearchParams(window.location.search);
+                var package = urlParams.get('package');
+                var plan = urlParams.get('plan');
+                var subscriptionId = urlParams.get('subscriptionId');
+
+                // Prepare the URL with query parameters
+                var url = new URL('http://localhost:5272/subscribe');
+                url.searchParams.append('email', email);
+                url.searchParams.append('stripeToken', stripeToken);
+                url.searchParams.append('package', package);
+                url.searchParams.append('plan', plan);
+
+                //SUBSCRIPTION ID ONLY NOT NULL WHEN UPDATE SUBSCRIPTION
+                if (subscriptionId !== null) {
+                    url.searchParams.append('subscriptionid', subscriptionId);
+                }
+
+                // Send the token to your server.
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                }).then(function (response) {
+                    if (!response.ok) {
                         console.log(email);
-                        console.log(plan);
                         console.log(stripeToken);
-                        console.log('Here is the data: ', data);
+                        //throw error message so I can read
+                        return response.text().then(text => { throw new Error(text); });
+                    }
+                    return response.json(); // Parse the response as JSON
+                }).then(function (data) {
+                    // Handle the response from your server
+                    // Redirect to the URL returned by the server
+                    console.log(email);
+                    console.log(stripeToken);
+                    console.log('Here is the data: ', data);
+
+                    //Clear subscriptionId that pass from viewsub to local storage
+                    localStorage.removeItem('subscriptionId');
+                    if (data.status === 'updatesuccess') {
+                        // Show a success notification with the server message
+                        alert('Update success: ' + data.message);
+                        localStorage.setItem('subscription', data.response);
+                        window.location.href = data.redirectUrl;
+                    } else if (data.status === 'error') {
+                        // Show an error notification with the server message
+                        alert('Update error: ' + data.message);
+                        // go back to package page with subscriptionId
+                        window.location.href = 'http://localhost:5272/Package.html?subscriptionId=' + encodeURIComponent(subscriptionId);
+                    } else if (data.status === 'addsuccess') {
                         // Store the subscription data in localStorage
                         localStorage.setItem('subscription', data.response);
                         window.location.href = data.redirectUrl;
-
-                        // Show a notification with the server response
-                        alert('Server response: ' + data.response);
-                    }).catch(function (error) {
-                        console.error('There has been a problem with your fetch operation:', error);
-                    });
-                }
-            });
+                    }
+                    // Show a notification with the server response
+                    /*                        alert('Server response: ' + data.response);*/
+                }).catch(function (error) {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+            }
         });
+    });
 
 
 
-
-    </script>
+</script>
 </body>
 </html>

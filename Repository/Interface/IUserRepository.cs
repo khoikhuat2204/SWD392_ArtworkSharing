@@ -12,5 +12,7 @@ namespace Repository.Interface
     {
         User? GetById(int id);
         User? GetByEmail(string email);
+        int GetIdByEmail(string email);
+        string GetNameByEmail(string email);
     }
 }

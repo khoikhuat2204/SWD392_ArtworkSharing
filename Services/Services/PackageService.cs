@@ -36,5 +36,15 @@ namespace Services.Services
         {
             _packageRepository.Delete(package);
         }
+
+        public int GetPackageIdByName(string name)
+        {
+            return _packageRepository.GetPackageIdByName(name);
+        }
+
+        public Package? GetPackageByName(string name)
+        {
+            return _packageRepository.GetPackageByName(name);
+        }
     }
 }

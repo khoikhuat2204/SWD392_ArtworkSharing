@@ -54,6 +54,11 @@ namespace Services.Services
             return userRepository.GetById(id);
         }
 
+        public int GetIdByEmail(string email)
+        {
+            return userRepository.GetIdByEmail(email);
+        }
+
         public ResponseDTO<string> Register(RegisterDTO dto)
         {
             User user = new User
@@ -72,6 +77,11 @@ namespace Services.Services
                 statusCode = 200,
                 message = "New user created"
             };
+        }
+
+        public string GetNameByEmail(string email)
+        {
+            return userRepository.GetNameByEmail(email);
         }
     }
 }

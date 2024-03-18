@@ -10,5 +10,8 @@ namespace Repository.Interface
 {
     public interface IPackageRepository : IBaseRepository<Package>
     {
+        public int GetPackageIdByName(string name);
+
+        public Package? GetPackageByName(string name);
     }
 }
