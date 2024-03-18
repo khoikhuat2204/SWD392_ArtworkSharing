@@ -16,5 +16,9 @@ namespace Services.Interface
         public bool Update(Package package);
 
         public void Remove(Package package);
+
+        public int GetPackageIdByName(string name);
+
+        public Package? GetPackageByName(string name);
     }
 }

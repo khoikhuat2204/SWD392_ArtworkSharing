@@ -1,0 +1,14 @@
+[
+  {
+    "artworkId": 1,
+    "artworkName": "Senadina",
+    "artworkPrice": 300,
+    "quantity": 3
+  },
+  {
+    "artworkId": 2,
+    "artworkName": "Coralie",
+    "artworkPrice": 300,
+    "quantity": 1
+  }
+]

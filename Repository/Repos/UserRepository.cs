@@ -23,7 +23,21 @@ namespace Repository.Repos
 
         public User? GetById(int id)
         {
-            return GetAll().ToList().Find(user => user.Id == id);
+            return GetAll().FirstOrDefault(user => user.Id == id);
+        }
+
+        // GetUserIdByEmail is a method that returns the id of a user by their email
+        public int GetIdByEmail(string email)
+        {
+            var user  = GetAll().ToList().Find(user => user.Email == email);
+            return user?.Id ?? 0;
+        }
+
+        // Get Name by Email is a method that returns the name of a user by their email
+        public string GetNameByEmail(string email)
+        {
+            var user = GetAll().ToList().Find(user => user.Email == email);
+            return user?.FullName ?? "";
         }
 
         public IQueryable<User> GetAllCreator()

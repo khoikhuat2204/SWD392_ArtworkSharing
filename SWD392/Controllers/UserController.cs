@@ -14,6 +14,7 @@ namespace SWD392.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
 
         public UserController(IUserService userService, IMapper mapper)

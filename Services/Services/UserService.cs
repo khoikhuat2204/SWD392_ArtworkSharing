@@ -49,6 +49,11 @@ namespace Services.Services
             return _userRepository.GetById(id);
         }
 
+        public int GetIdByEmail(string email)
+        {
+            return _userRepository.GetIdByEmail(email);
+        }
+
         public ResponseDTO<string> Register(RegisterDTO dto)
         {
             // check email exists
@@ -76,6 +81,11 @@ namespace Services.Services
                 statusCode = 400,
                 message = "Register failed! Please try again or contact us for more details."
             };
+        }
+
+        public string GetNameByEmail(string email)
+        {
+            return _userRepository.GetNameByEmail(email);
         }
 
         public List<User> GetAllCreator()
