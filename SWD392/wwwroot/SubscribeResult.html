@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <!-- HERE IS WHERE THE RESULT HANDLE --> 
+    <div id="result"></div>
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        // Get the subscription data from the local storage
+        var subscriptionData = localStorage.getItem('subscription');
+        var subscription = JSON.parse(subscriptionData);
+
+        var res = document.getElementById('result');
+
+        // Display the subscription details
+        /*        res.textContent = JSON.stringify(subscription, null, 2);*/
+
+        //display subscription id
+
+
+        const { latest_invoice } = subscription;
+        const { payment_intent } = latest_invoice;
+
+        if (payment_intent) {
+            const { client_secret, status } = payment_intent;
+
+            if (status === 'requires_action') {
+                var stripe = Stripe('pk_test_51OsHZUGbEbQ0nPlDmozfqb0YVCLTp9jIhOZKwxbIDfYoQOR8yz5lyJdjTtRKN4mkOJVi2LDHAw86ksdapAFb3wUn00lnJawmvD'); // Replace with your Stripe public key
+
+                stripe.confirmCardPayment(client_secret).then(function (result) {
+                    if (result.error) {
+                        // Display error message in your UI.
+                        // The card was declined (i.e. insufficient funds, card has expired, etc)
+                        res.textContent += '\n' + result.error.message;
+                    } else {
+                        // Show a success message to your customer
+                        res.textContent += '\nYour subscription was successfully authenticated';
+                    }
+                });
+            } else {
+                // No additional information was needed
+                // Show a success message to your customer
+                res.textContent += '\nYour subscription was successfully setup with ';
+                res.textContent += '\nSubscription ID: ' + subscription.id;
+            }
+        }
+    </script>
+</body>
+</html>

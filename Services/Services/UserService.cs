@@ -49,6 +49,11 @@ namespace Services.Services
             return _userRepository.GetById(id);
         }
 
+        public int GetIdByEmail(string email)
+        {
+            return _userRepository.GetIdByEmail(email);
+        }
+
         public ResponseDTO<string> Register(RegisterDTO dto)
         {
             // check email exists
@@ -78,9 +83,19 @@ namespace Services.Services
             };
         }
 
+        public string GetNameByEmail(string email)
+        {
+            return _userRepository.GetNameByEmail(email);
+        }
+
         public List<User> GetAllCreator()
         {
             return _userRepository.GetAllCreator().ToList();
+        }
+
+        public List<User> GetAllUsers()
+        {
+            return _userRepository.GetAllUsers().ToList();
         }
     }
 }

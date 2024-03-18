@@ -14,14 +14,13 @@ namespace SWD392.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IMapper mapper, TokenService tokenService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             this.userService = userService;
             this._mapper = mapper;
-            _tokenService = tokenService;
 
         }
 
@@ -54,9 +53,31 @@ namespace SWD392.Controllers
         {
             var users = userService.GetAllCreator();
             if (!users.Any())
-                return NotFound();
+                return Ok("No creators found");
             var mappedUsers = users.Select(p => _mapper.Map<UserDTO>(p)).ToList();
             return Ok(mappedUsers);
+        }
+
+        [HttpGet("get-all-users")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetAllUsers()
+        {
+            var users = userService.GetAllUsers();
+            if (!users.Any())
+                return Ok("No users found");
+            var mappedUsers = users.Select(p => _mapper.Map<UserDTO>(p)).ToList();
+            return Ok(mappedUsers);
+
+        }
+
+        [HttpGet("view-account-detail/{id}")]
+        public IActionResult ViewAccountDetail(int id)
+        {
+            var user = userService.GetById(id);
+            if (user == null)
+                return BadRequest("No user found");
+            var mappedUser = _mapper.Map<ViewAccountDTO>(user);
+            return Ok(mappedUser);
         }
     }
 }

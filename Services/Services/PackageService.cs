@@ -27,14 +27,33 @@ namespace Services.Services
             _packageRepository.Add(package);
         }
 
-        public void Update(Package package)
+        public bool Update(Package package)
         {
-            _packageRepository.Update(package);
+            try
+            {
+                _packageRepository.Update(package);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         public void Remove(Package package)
         {
             _packageRepository.Delete(package);
+        }
+
+        public int GetPackageIdByName(string name)
+        {
+            return _packageRepository.GetPackageIdByName(name);
+        }
+
+        public Package? GetPackageByName(string name)
+        {
+            return _packageRepository.GetPackageByName(name);
         }
     }
 }
