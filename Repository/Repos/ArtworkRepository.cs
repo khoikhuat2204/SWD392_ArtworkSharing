@@ -24,11 +24,12 @@ namespace Repository.Repos
 
         public IQueryable<Artwork> SearchByTags(List<int> tagIds)
         {
-            var artworks = GetAll().Include(x => x.Tags).ToList();
-            foreach (var tagId in tagIds)
-            {
-                artworks = artworks.Where(a => a.Tags != null && a.Tags.Any(t => t.Id == tagId)).ToList();
-            }
+            var artworks = GetAll().Include(x => x.ArtworkTags).ThenInclude(x => x.Tag).ToList();
+            // var artworks = GetAll().Include(x => x.Tags).ToList();
+            // foreach (var tagId in tagIds)
+            // {
+            //     artworks = artworks.Where(a => a.Tags != null && a.Tags.Any(t => t.Id == tagId)).ToList();
+            // }
             return artworks.AsQueryable();
         }
     }
