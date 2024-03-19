@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccessLayer.Models;
+﻿using DataAccessLayer.Models;
 
 namespace Services.Interface
 {
     public interface IPackageService
     {
         public List<Package> GetAll();
+
+        public Package? GetById(int id);
 
         public void Add(Package package);
 
