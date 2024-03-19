@@ -22,8 +22,7 @@ namespace Services.Services
         private readonly IAzureService _azureService;
 
         public UserService(IUserRepository userRepository, IMapper mapper, ITokenService tokenService,
-            IAzureService azureService,
-            IHttpContextAccessor httpContextAccessor)
+            IAzureService azureService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
