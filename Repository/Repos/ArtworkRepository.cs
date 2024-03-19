@@ -37,5 +37,15 @@ namespace Repository.Repos
             artwork.ArtworkStatus = DataAccessLayer.Enum.ArtworkStatus.Sold;
             return Update(artwork);
         }
+
+        public IQueryable<Artwork> GetAllByArtworkType(int typeId)
+        {
+            return GetAll().Where(x => x.TypeId.Equals(typeId));
+        }
+
+        public IQueryable<Artwork> GetAllByArtworkName(string artworkName)
+        {
+            return GetAll().Where(x => x.Name.Contains(artworkName));
+        }
     }
 }

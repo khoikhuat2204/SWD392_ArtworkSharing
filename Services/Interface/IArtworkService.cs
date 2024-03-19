@@ -7,6 +7,8 @@ namespace Services.Interface
     {
         public List<Artwork> GetAll();
         public List<Artwork> GetAllByUserId(int id);
+        public List<Artwork> GetAllByArtworkType(int typeId);
+        public List<Artwork> GetAllByArtworkName(string artworkName);
         public void Add(Artwork artwork);
         public bool Update(Artwork artwork);
         public void Remove(Artwork artwork);
