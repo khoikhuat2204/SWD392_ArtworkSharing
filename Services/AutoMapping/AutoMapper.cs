@@ -19,6 +19,12 @@ public class AutoMapper: Profile
         MapArtworkType();
         MapUser();
         MapRating();
+        MapTag();
+    }
+    
+    private void MapTag()
+    {
+        CreateMap<Tag, TagResponseDTO>().ReverseMap();
     }
     
     private void MapReport()
