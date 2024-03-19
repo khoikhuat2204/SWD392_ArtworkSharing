@@ -22,6 +22,11 @@ namespace Services.Services
             return _packageRepository.GetAll().ToList();
         }
 
+        public Package? GetById(int id)
+        {
+            return _packageRepository.GetById(id);
+        }
+
         public void Add(Package package)
         {
             _packageRepository.Add(package);
@@ -31,8 +36,7 @@ namespace Services.Services
         {
             try
             {
-                _packageRepository.Update(package);
-                return true;
+                return _packageRepository.Update(package);
             }
             catch
             {
