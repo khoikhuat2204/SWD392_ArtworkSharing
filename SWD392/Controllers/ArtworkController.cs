@@ -209,9 +209,10 @@ public class ArtworkController : Controller
         {
             return NotFound();
         }
-
-        artwork.ArtworkStatus = (DataAccessLayer.Enum.ArtworkStatus)2;
-        _artworkService.Update(artwork);
-        return NoContent();
+        if (_artworkService.SellArtwork(artwork)) 
+        {
+            return Ok();
+        }
+        return BadRequest();
     }
 }

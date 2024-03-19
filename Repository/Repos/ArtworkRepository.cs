@@ -31,5 +31,11 @@ namespace Repository.Repos
             }
             return artworks.AsQueryable();
         }
+
+        public bool MarkAsSold(Artwork artwork) 
+        {
+            artwork.ArtworkStatus = DataAccessLayer.Enum.ArtworkStatus.Sold;
+            return Update(artwork);
+        }
     }
 }

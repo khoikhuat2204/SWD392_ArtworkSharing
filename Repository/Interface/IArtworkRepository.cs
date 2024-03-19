@@ -9,5 +9,6 @@ namespace Repository.Interface
         Artwork? GetById(int id);
         IQueryable<Artwork> SearchByTags(List<int> tagIds);
         IQueryable<Artwork> SearchByName(string name);
+        public bool MarkAsSold(Artwork artwork);
     }
 }

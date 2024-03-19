@@ -15,6 +15,6 @@ namespace Services.Interface
         public List<Artwork> SearchByTags(SearchByTagsDTO tags);
         public List<Artwork> SearchByName(string name);
         public Artwork GetById(int id);
-
+        public bool SellArtwork(Artwork artwork);
     }
 }
