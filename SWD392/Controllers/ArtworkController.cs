@@ -133,7 +133,7 @@ public class ArtworkController : Controller
         }
         if (existingArtwork == null)
         {
-            return Ok("No artworks found");
+            return BadRequest("No artworks found");
         }
 
         existingArtwork.Name = updateArtworkDto.Name;
@@ -143,7 +143,7 @@ public class ArtworkController : Controller
         existingArtwork.IsDeleted = updateArtworkDto.IsDeleted;
 
         _artworkService.Update(existingArtwork);
-        return NoContent();
+        return Ok();
     }
 
     [HttpDelete("delete-artwork/{id}")]
