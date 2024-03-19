@@ -7,10 +7,12 @@ namespace Services.Services;
 public class TagService : ITagService
 {
     private readonly ITagRepository _tagRepository;
+    private readonly IArtworkTagService _artworkTagService;
 
-    public TagService(ITagRepository tagRepository)
+    public TagService(ITagRepository tagRepository, IArtworkTagService artworkTagService)
     {
         _tagRepository = tagRepository;
+        _artworkTagService = artworkTagService;
     }
 
     public bool AddTag(Tag tag)
@@ -42,5 +44,18 @@ public class TagService : ITagService
     public List<Tag> GetAllTags()
     {
         return _tagRepository.GetAll().ToList();
+    }
+    
+    public List<Tag> GetTagsByArtworkId(int artworkId)
+    {
+        var artworkTags = _artworkTagService.GetTagsByArtworkId(artworkId).ToList();
+        List<Tag> tags = new List<Tag>();
+        foreach (var artworkTag in artworkTags)
+        {
+            var tag = GetAllTags().FirstOrDefault(t => t.Id == artworkTag.TagId);
+            tags.Add(tag);
+        }
+
+        return tags;
     }
 }

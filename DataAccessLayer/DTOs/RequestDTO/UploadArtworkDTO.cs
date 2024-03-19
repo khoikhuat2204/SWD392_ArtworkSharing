@@ -13,4 +13,6 @@ public class UploadArtworkDTO
     public int TypeId { get; set; }
     public ArtworkStatus ArtworkStatus = ArtworkStatus.Available;
     public IFormFile? ImageUploadRequest { get; set; }
+    
+    public CreateArtworkTagDTO CreateArtworkTagDto { get; set; }
 }
