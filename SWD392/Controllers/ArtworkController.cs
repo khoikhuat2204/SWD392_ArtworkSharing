@@ -239,4 +239,26 @@ public class ArtworkController : Controller
         }
         return BadRequest();
     }
+    
+    [HttpPut("edit-artwork-tag")]
+    [Authorize(Roles = "Creator")]
+    public async Task<IActionResult> UpdateArtworkTag([FromBody] CreateArtworkTagDTO updateArtworkStatusDto)
+    {
+        var existingArtwork = _artworkService.GetAll().Any(a => a.Id == updateArtworkStatusDto.ArtworkId);
+        if (existingArtwork == false)
+        {
+            return Ok("No artworks found");
+        }
+        //check if the tag is valid
+        foreach (var tagId in updateArtworkStatusDto.TagId)
+        {
+            if (!_tagService.Exists(tagId))
+            {
+                return BadRequest($"TagId: {tagId} not found");
+            }
+        }
+        
+        _artworkTagService.EditArtworkTag(updateArtworkStatusDto);
+        return Ok("Artwork tag updated");
+    }
 }

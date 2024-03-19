@@ -58,4 +58,9 @@ public class TagService : ITagService
 
         return tags;
     }
+
+    public bool Exists(int tagId)
+    {
+        return _tagRepository.GetAll().Any(t => t.Id == tagId);
+    }
 }
