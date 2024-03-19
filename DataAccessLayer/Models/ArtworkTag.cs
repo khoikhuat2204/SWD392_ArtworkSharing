@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DataAccessLayer.Models;
 
@@ -15,8 +16,10 @@ public class ArtworkTag
     public int TagId { get; set; }
     
     [ForeignKey("ArtworkId")]
+    [JsonIgnore]
     public virtual Artwork Artwork { get; set; }
     
-    [ForeignKey("TagId")]
+    [ForeignKey("TagId")]   
+    [JsonIgnore]
     public virtual Tag Tag { get; set; }
 }
