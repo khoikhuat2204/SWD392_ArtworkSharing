@@ -136,5 +136,9 @@ namespace Services.Services
             return _artworkRepository.GetAllByUserId(id).ToList();
         }
 
+        public bool SellArtwork(Artwork artwork)
+        {
+            return _artworkRepository.MarkAsSold(artwork);
+        }
     }
 }
