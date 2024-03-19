@@ -8,4 +8,5 @@ public interface ITagService
     public bool UpdateTag(Tag tag);
     public List<Tag> GetAllTags();
     public List<Tag> GetTagsByArtworkId(int artworkId);
+    public bool Exists(int tagId);
 }
