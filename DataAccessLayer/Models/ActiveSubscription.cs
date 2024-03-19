@@ -14,7 +14,10 @@ namespace DataAccessLayer.Models
         [Column("active_subscription_id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
+
+        [Column("stripe_subscription_id")]
+        public string? StripeSubscriptionId { get; set; }
+
         [ForeignKey(nameof(Models.User))]
         public int UserId { get; set; }
         

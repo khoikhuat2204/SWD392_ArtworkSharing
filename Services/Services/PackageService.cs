@@ -22,19 +22,42 @@ namespace Services.Services
             return _packageRepository.GetAll().ToList();
         }
 
+        public Package? GetById(int id)
+        {
+            return _packageRepository.GetById(id);
+        }
+
         public void Add(Package package)
         {
             _packageRepository.Add(package);
         }
 
-        public void Update(Package package)
+        public bool Update(Package package)
         {
-            _packageRepository.Update(package);
+            try
+            {
+                return _packageRepository.Update(package);
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         public void Remove(Package package)
         {
             _packageRepository.Delete(package);
+        }
+
+        public int GetPackageIdByName(string name)
+        {
+            return _packageRepository.GetPackageIdByName(name);
+        }
+
+        public Package? GetPackageByName(string name)
+        {
+            return _packageRepository.GetPackageByName(name);
         }
     }
 }

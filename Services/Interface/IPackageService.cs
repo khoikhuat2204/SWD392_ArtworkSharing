@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccessLayer.Models;
+﻿using DataAccessLayer.Models;
 
 namespace Services.Interface
 {
@@ -11,10 +6,16 @@ namespace Services.Interface
     {
         public List<Package> GetAll();
 
+        public Package? GetById(int id);
+
         public void Add(Package package);
 
-        public void Update(Package package);
+        public bool Update(Package package);
 
         public void Remove(Package package);
+
+        public int GetPackageIdByName(string name);
+
+        public Package? GetPackageByName(string name);
     }
 }

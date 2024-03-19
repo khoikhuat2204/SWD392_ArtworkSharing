@@ -29,6 +29,7 @@ namespace DataAccessLayer.Models
         public bool IsDeleted { get; set; }
         [Required]
         public Role Role { get; set; }
+        public string? ImagePath { get; set; }
 
         [JsonIgnore]
         public ICollection<Reservation>? Reservations { get; set; }
