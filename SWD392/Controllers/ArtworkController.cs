@@ -4,11 +4,9 @@ using DataAccessLayer.DTOs.ResponseDTO;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Repository.Interface;
 using Services.Extensions;
 using Services.Interface;
-using DataAccessLayer.DTOs.ResponseDTO;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SWD392.Controllers;
 
@@ -94,7 +92,7 @@ public class ArtworkController : Controller
 
             var createdArtwork = new Artwork()
             {
-                UserId = Int32.Parse(userId),
+                UserId = int.Parse(userId),
                 CreatedDate = DateTime.Now,
                 Name = uploadArtworkDto.Name,
                 Description = uploadArtworkDto.Description,
@@ -106,12 +104,12 @@ public class ArtworkController : Controller
             };
             _artworkService.Add(createdArtwork);
 
-            if (uploadArtworkDto.TagIds != null)
+            if (!uploadArtworkDto.Tags.IsNullOrEmpty())
             {
                 var artworkTags = new CreateArtworkTagDTO
                 {
                     ArtworkId = createdArtwork.Id,
-                    TagId = uploadArtworkDto.TagIds
+                    Tags = uploadArtworkDto.Tags!
                 };
                 _artworkTagService.AddTagsToArtwork(artworkTags);
             }
@@ -148,18 +146,6 @@ public class ArtworkController : Controller
         return NoContent();
     }
 
-    /*    [HttpDelete("delete-artwork/{id}")]
-        public async Task<IActionResult> DeleteArtwork(int id)
-        {
-            var artwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
-            if (artwork == null)
-            {
-                return NotFound();
-            }
-            _artworkService.Remove(artwork);
-            return NoContent();
-        }*/
-
     [HttpDelete("delete-artwork/{id}")]
     public async Task<IActionResult> DeleteArtwork(int id)
     {
@@ -173,8 +159,6 @@ public class ArtworkController : Controller
             return BadRequest();
         }
     }
-
-
 
     [HttpPost("search-by-tags")]
     public async Task<IActionResult> SearchByTags([FromBody]SearchByTagsDTO tags)
@@ -195,6 +179,7 @@ public class ArtworkController : Controller
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
         return Ok(mappedArtworks);
     }
+
     [HttpGet("get-all-artwork-with-rating")]
     public IActionResult GetAllArtworkWithRating()
     {
@@ -242,23 +227,14 @@ public class ArtworkController : Controller
     
     [HttpPut("edit-artwork-tag")]
     [Authorize(Roles = "Creator")]
-    public async Task<IActionResult> UpdateArtworkTag([FromBody] CreateArtworkTagDTO updateArtworkStatusDto)
+    public async Task<IActionResult> UpdateArtworkTag([FromBody] EditArtworkTagDTO editArtworkTagDTO)
     {
-        var existingArtwork = _artworkService.GetAll().Any(a => a.Id == updateArtworkStatusDto.ArtworkId);
+        var existingArtwork = _artworkService.GetAll().Any(a => a.Id == editArtworkTagDTO.ArtworkId);
         if (existingArtwork == false)
         {
-            return Ok("No artworks found");
+            return BadRequest("No artworks found");
         }
-        //check if the tag is valid
-        foreach (var tagId in updateArtworkStatusDto.TagId)
-        {
-            if (!_tagService.Exists(tagId))
-            {
-                return BadRequest($"TagId: {tagId} not found");
-            }
-        }
-        
-        _artworkTagService.EditArtworkTag(updateArtworkStatusDto);
+        _artworkTagService.EditArtworkTag(editArtworkTagDTO);
         return Ok("Artwork tag updated");
     }
 }
