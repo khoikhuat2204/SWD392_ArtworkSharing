@@ -105,9 +105,12 @@ public class ArtworkController : Controller
                 ImagePath = imageUrls[0],
             };
             _artworkService.Add(createdArtwork);
+
+            var artworkTags = new CreateArtworkTagDTO();
+            artworkTags.ArtworkId = createdArtwork.Id;
+            artworkTags.TagId = uploadArtworkDto.TagIds;
             
-            uploadArtworkDto.CreateArtworkTagDto.ArtworkId = createdArtwork.Id;
-            _artworkTagService.AddTagsToArtwork(uploadArtworkDto.CreateArtworkTagDto);
+            _artworkTagService.AddTagsToArtwork(artworkTags);
             return Ok(createdArtwork);
         }
         else
