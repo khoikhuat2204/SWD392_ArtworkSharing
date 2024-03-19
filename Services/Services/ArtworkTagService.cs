@@ -12,9 +12,10 @@ public class ArtworkTagService : IArtworkTagService
     private readonly IArtworkTagRepository _artworkTagRepository;
     private readonly ITagRepository _tagRepository;
 
-    public ArtworkTagService(IArtworkTagRepository artworkTagRepository)
+    public ArtworkTagService(IArtworkTagRepository artworkTagRepository, ITagRepository tagRepository)
     {
         _artworkTagRepository = artworkTagRepository;
+        _tagRepository = tagRepository;
     }
 
     public bool AddArtworkTag(int artworkId, string tagName)
