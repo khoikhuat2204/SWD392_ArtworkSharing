@@ -204,7 +204,7 @@ public class ArtworkController : Controller
     public async Task<IActionResult> SellArtwork(int id)
     {
 
-        var artwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
+        var artwork = _artworkService.GetById(id);
         if (artwork == null)
         {
             return NotFound();
