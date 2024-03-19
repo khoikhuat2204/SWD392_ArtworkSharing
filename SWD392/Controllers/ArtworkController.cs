@@ -106,11 +106,16 @@ public class ArtworkController : Controller
             };
             _artworkService.Add(createdArtwork);
 
-            var artworkTags = new CreateArtworkTagDTO();
-            artworkTags.ArtworkId = createdArtwork.Id;
-            artworkTags.TagId = uploadArtworkDto.TagIds;
+            if (uploadArtworkDto.TagIds != null)
+            {
+                var artworkTags = new CreateArtworkTagDTO
+                {
+                    ArtworkId = createdArtwork.Id,
+                    TagId = uploadArtworkDto.TagIds
+                };
+                _artworkTagService.AddTagsToArtwork(artworkTags);
+            }
             
-            _artworkTagService.AddTagsToArtwork(artworkTags);
             return Ok(createdArtwork);
         }
         else
