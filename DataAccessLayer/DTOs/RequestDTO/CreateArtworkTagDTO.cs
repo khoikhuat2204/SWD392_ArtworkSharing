@@ -3,5 +3,5 @@
 public class CreateArtworkTagDTO
 {
     public int ArtworkId { get; set; }
-    public List<int> TagId { get; set; }
+    public List<string> Tags { get; set; }
 }
