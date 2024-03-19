@@ -140,5 +140,15 @@ namespace Services.Services
         {
             return _artworkRepository.MarkAsSold(artwork);
         }
+
+        public List<Artwork> GetAllByArtworkType(int typeId)
+        {
+            return _artworkRepository.GetAllByArtworkType(typeId).ToList();
+        }
+
+        public List<Artwork> GetAllByArtworkName(string artworkName)
+        {
+            return _artworkRepository.GetAllByArtworkName(artworkName).ToList();
+        }
     }
 }

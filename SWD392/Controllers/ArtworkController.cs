@@ -24,8 +24,8 @@ public class ArtworkController : Controller
     private readonly IArtworkTagService _artworkTagService;
     private readonly ITagService _tagService;
 
-    public ArtworkController(IArtworkService artworkService, IUserService userService, IMapper mapper, IAzureService azureService, 
-        IRatingService ratingService, 
+    public ArtworkController(IArtworkService artworkService, IUserService userService, IMapper mapper, IAzureService azureService,
+        IRatingService ratingService,
         IArtworkTagService artworkTagService,
         ITagService tagService)
     {
@@ -53,7 +53,17 @@ public class ArtworkController : Controller
         }
         return Ok(mappedArtworks);
     }
-    
+
+    [HttpGet("get-all-artworks/type/{id}")]
+    public async Task<IActionResult> GetArtworksByType(int id)
+    {
+        var artworks = _artworkService.GetAllByArtworkType(id);
+        if (!artworks.Any())
+            return Ok("No artworks found");
+        var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
+        return Ok(mappedArtworks);
+    }
+
     [HttpGet("get-artworks/user/{id}")]
     public async Task<IActionResult> GetArtworksByUserId(int id)
     {
@@ -63,17 +73,17 @@ public class ArtworkController : Controller
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
         return Ok(mappedArtworks);
     }
-    
+
     [HttpGet("get-artwork/{id}")]
     public async Task<IActionResult> GetArtworksById(int id)
     {
         var artwork = _artworkService.GetAll().Find(x => x.Id.Equals(id));
         if (artwork == null)
-             return Ok("No artworks found");
+            return Ok("No artworks found");
         var creator = _userService.GetAllCreator().Find(x => x.Id.Equals(artwork.UserId));
         var mappedCreator = _mapper.Map<UserDTO>(creator);
 
-           
+
         var mappedArtworks = _mapper.Map<ArtworkDTO>(artwork);
         mappedArtworks.Creator = mappedCreator;
         return Ok(mappedArtworks);
@@ -115,7 +125,7 @@ public class ArtworkController : Controller
                 };
                 _artworkTagService.AddTagsToArtwork(artworkTags);
             }
-            
+
             return Ok(createdArtwork);
         }
         else
@@ -177,7 +187,7 @@ public class ArtworkController : Controller
 
 
     [HttpPost("search-by-tags")]
-    public async Task<IActionResult> SearchByTags([FromBody]SearchByTagsDTO tags)
+    public async Task<IActionResult> SearchByTags([FromBody] SearchByTagsDTO tags)
     {
         var artworks = _artworkService.SearchByTags(tags);
         if (!artworks.Any())
@@ -185,7 +195,7 @@ public class ArtworkController : Controller
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
         return Ok(mappedArtworks);
     }
-    
+
     [HttpGet("search-by-name/{name}")]
     public async Task<IActionResult> SearchByName(string name)
     {
@@ -199,9 +209,9 @@ public class ArtworkController : Controller
     public IActionResult GetAllArtworkWithRating()
     {
         var artworks = _artworkService.GetAll();
-        if(artworks.Count == 0)
+        if (artworks.Count == 0)
             return Ok("No artworks found");
-            
+
         var mappedArtworks = _mapper.Map<List<ArtworkDetailDTO>>(artworks);
         foreach (var artwork in mappedArtworks)
         {
@@ -209,13 +219,13 @@ public class ArtworkController : Controller
         }
         return Ok(mappedArtworks);
     }
-        
+
     [HttpGet("get-artwork-with-rating/{artworkId}")]
     public IActionResult GetRatingOfAnArtwork(int artworkId)
     {
         if (_artworkService.GetById(artworkId) == null)
             return BadRequest("Artwork not found");
-            
+
         var rating = _ratingService.GetRatingOfAnArtwork(artworkId);
         var artwork = _artworkService.GetById(artworkId);
         var mappedArtworks = _mapper.Map<ArtworkDetailDTO>(artwork);
@@ -233,13 +243,13 @@ public class ArtworkController : Controller
         {
             return NotFound();
         }
-        if (_artworkService.SellArtwork(artwork)) 
+        if (_artworkService.SellArtwork(artwork))
         {
             return Ok();
         }
         return BadRequest();
     }
-    
+
     [HttpPut("edit-artwork-tag")]
     [Authorize(Roles = "Creator")]
     public async Task<IActionResult> UpdateArtworkTag([FromBody] CreateArtworkTagDTO updateArtworkStatusDto)
@@ -257,7 +267,7 @@ public class ArtworkController : Controller
                 return BadRequest($"TagId: {tagId} not found");
             }
         }
-        
+
         _artworkTagService.EditArtworkTag(updateArtworkStatusDto);
         return Ok("Artwork tag updated");
     }
