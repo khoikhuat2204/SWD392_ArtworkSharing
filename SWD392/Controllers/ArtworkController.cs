@@ -21,14 +21,21 @@ public class ArtworkController : Controller
     private readonly IMapper _mapper;
     private readonly IAzureService _azureService;
     private readonly IRatingService _ratingService;
+    private readonly IArtworkTagService _artworkTagService;
+    private readonly ITagService _tagService;
 
-    public ArtworkController(IArtworkService artworkService, IUserService userService, IMapper mapper, IAzureService azureService, IRatingService ratingService)
+    public ArtworkController(IArtworkService artworkService, IUserService userService, IMapper mapper, IAzureService azureService, 
+        IRatingService ratingService, 
+        IArtworkTagService artworkTagService,
+        ITagService tagService)
     {
         _artworkService = artworkService;
         _mapper = mapper;
         _azureService = azureService;
         _ratingService = ratingService;
         _userService = userService;
+        _artworkTagService = artworkTagService;
+        _tagService = tagService;
     }
 
     [HttpGet("get-all-artworks")]
@@ -38,6 +45,12 @@ public class ArtworkController : Controller
         if (!artworks.Any())
             return Ok("No artworks found");
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
+        foreach (var mappedArtwork in mappedArtworks)
+        {
+            var tags = _tagService.GetTagsByArtworkId(mappedArtwork.Id);
+            var mappedTags = _mapper.Map<List<TagResponseDTO>>(tags);
+            mappedArtwork.ArtworkTagsResponse = mappedTags;
+        }
         return Ok(mappedArtworks);
     }
     
@@ -92,6 +105,9 @@ public class ArtworkController : Controller
                 ImagePath = imageUrls[0],
             };
             _artworkService.Add(createdArtwork);
+            
+            uploadArtworkDto.CreateArtworkTagDto.ArtworkId = createdArtwork.Id;
+            _artworkTagService.AddTagsToArtwork(uploadArtworkDto.CreateArtworkTagDto);
             return Ok(createdArtwork);
         }
         else

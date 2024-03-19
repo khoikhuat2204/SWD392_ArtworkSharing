@@ -36,4 +36,10 @@ public class ArtworkTagService : IArtworkTagService
         }
         return result;
     }
+    
+    // get tag by artworkId
+    public List<ArtworkTag> GetTagsByArtworkId(int artworkId)
+    {
+        return _artworkTagRepository.GetAll().Where(a => a.ArtworkId == artworkId).ToList();
+    }
 }
