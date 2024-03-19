@@ -24,6 +24,7 @@ public class ArtworkTagService : IArtworkTagService
         {
             _tagRepository.Add(new Tag() { Name = tagName, IsDeleted = false });
         }
+        tag = _tagRepository.FindByName(tagName)!;
         var artworkTag = new ArtworkTag
         {
             ArtworkId = artworkId,
