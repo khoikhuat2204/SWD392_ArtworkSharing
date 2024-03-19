@@ -33,9 +33,18 @@ namespace Services.Services
             _artworkRepository.Add(artwork);
         }
 
-        public void Update(Artwork artwork)
+        public bool Update(Artwork artwork)
         {
-            _artworkRepository.Update(artwork);
+            try
+            {
+                _artworkRepository.Update(artwork);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         public void Remove(Artwork artwork)

@@ -37,15 +37,13 @@ builder.Services.AddTransient<IArtworkService, ArtworkService>();
 builder.Services.AddTransient<IArtworkTypeService, ArtworkTypeService>();
 builder.Services.AddTransient<IAzureService, AzureService>();
 
-builder.Services.AddSingleton<Services.Extensions.TokenService>();
+/*builder.Services.AddSingleton<Services.Extensions.TokenService>();*/
 builder.Services.AddTransient<ISubscriptionService, Services.Services.SubscriptionService>();
-builder.Services.AddSingleton<Stripe.TokenService>();
-
-/*builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();*/
 builder.Services.AddTransient<ITokenService, Services.Extensions.TokenService>();
-
-
-
+builder.Services.AddTransient<Stripe.TokenService>();
+builder.Services.AddTransient<Stripe.SubscriptionService>();
+builder.Services.AddTransient<Stripe.CustomerService>();
+builder.Services.AddTransient<Stripe.SubscriptionItemService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
