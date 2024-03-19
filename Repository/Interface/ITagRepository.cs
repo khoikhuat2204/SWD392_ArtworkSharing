@@ -10,5 +10,6 @@ namespace Repository.Interface
 {
     public interface ITagRepository : IBaseRepository<Tag>
     {
+        public Tag? FindByName(string name);
     }
 }

@@ -3,61 +3,66 @@ using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
 using Services.Interface;
+using Stripe;
 
 namespace Services.Services;
 
 public class ArtworkTagService : IArtworkTagService
 {
     private readonly IArtworkTagRepository _artworkTagRepository;
+    private readonly ITagRepository _tagRepository;
 
-    public ArtworkTagService(IArtworkTagRepository artworkTagRepository)
+    public ArtworkTagService(IArtworkTagRepository artworkTagRepository, ITagRepository tagRepository)
     {
         _artworkTagRepository = artworkTagRepository;
+        _tagRepository = tagRepository;
     }
-    public bool AddArtworkTag(int artworkId, int tagId)
+
+    public bool AddArtworkTag(int artworkId, string tagName)
     {
+        Tag? tag = _tagRepository.FindByName(tagName);
+        if (tag == null)
+        {
+            _tagRepository.Add(new Tag() { Name = tagName, IsDeleted = false });
+        }
+        tag = _tagRepository.FindByName(tagName)!;
         var artworkTag = new ArtworkTag
         {
             ArtworkId = artworkId,
-            TagId = tagId
+            TagId = tag.Id
         };
         return _artworkTagRepository.Add(artworkTag);
     }
 
     public bool AddTagsToArtwork(CreateArtworkTagDTO createArtworkTagDto)
     {
-        var result = true;
-        foreach (var tagId in createArtworkTagDto.TagId)
+        foreach (var tagName in createArtworkTagDto.Tags)
         {
-            result = AddArtworkTag(createArtworkTagDto.ArtworkId, tagId);
-            if (!result)
+            if (!AddArtworkTag(createArtworkTagDto.ArtworkId, tagName))
             {
                 return false;
             }
         }
-        return result;
+        return true;
     }
 
-    public bool EditArtworkTag(CreateArtworkTagDTO editArtworkTagDto)
+    // Not optimized I know
+    public bool EditArtworkTag(EditArtworkTagDTO editArtworkTagDto)
     {
-        var artworkTags = _artworkTagRepository.GetAll()
+        List<ArtworkTag> currTags = _artworkTagRepository.GetAll()
             .Where(at => at.ArtworkId == editArtworkTagDto.ArtworkId)
-            .AsNoTracking().ToList();
-        
-        var tagsToRemove = artworkTags.Where(at => !editArtworkTagDto.TagId.Contains(at.TagId)).ToList();
-        foreach (var tag in tagsToRemove)
+            .ToList();
+
+        foreach (ArtworkTag tag in currTags)
         {
             _artworkTagRepository.Delete(tag);
         }
-        
-        // Add new tags
-        foreach (var tagId in editArtworkTagDto.TagId)
+
+        foreach (var tagName in editArtworkTagDto.Tags)
         {
-            // Check if the tag is already associated with the artwork
-            if (!artworkTags.Any(at => at.TagId == tagId))
-            { 
-                var newArtworkTag = new ArtworkTag { ArtworkId = editArtworkTagDto.ArtworkId, TagId = tagId };
-                _artworkTagRepository.Add(newArtworkTag);
+            if (!AddArtworkTag(editArtworkTagDto.ArtworkId, tagName))
+            {
+                return false;
             }
         }
         return true;
