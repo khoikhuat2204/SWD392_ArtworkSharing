@@ -23,17 +23,12 @@ public class ArtworkTagController : ControllerBase
     {
         if(_artworkService.GetById(createArtworkTagDto.ArtworkId) == null)
             return BadRequest("Artwork not found");
-        foreach (var tagId in createArtworkTagDto.TagId)
-        {
-            if (_tagService.GetAllTags().Find(x => x.Id.Equals(tagId)) == null)
-                return BadRequest($"Tag {tagId} not found");
-        }
         
         var result = _artworkTagService.AddTagsToArtwork(createArtworkTagDto);
         if (result)
         {
-            return Ok("Tag added to artwork");
+            return Ok("Tags added to artwork");
         }
-        return BadRequest("Failed to add tag to artwork");
+        return BadRequest("Failed to add tags to artwork");
     }
 }
