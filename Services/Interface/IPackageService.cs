@@ -13,8 +13,12 @@ namespace Services.Interface
 
         public void Add(Package package);
 
-        public void Update(Package package);
+        public bool Update(Package package);
 
         public void Remove(Package package);
+
+        public int GetPackageIdByName(string name);
+
+        public Package? GetPackageByName(string name);
     }
 }

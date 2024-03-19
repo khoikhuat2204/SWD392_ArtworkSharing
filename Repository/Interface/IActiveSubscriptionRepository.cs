@@ -10,5 +10,9 @@ namespace Repository.Interface
 {
     public interface IActiveSubscriptionRepository : IBaseRepository<ActiveSubscription>
     {
+        // GetSubscriptionById
+        public ActiveSubscription? GetSubscriptionById(int id);
+
+        public string GetStripeSubscriptionIDById(int subscriptionId);
     }
 }

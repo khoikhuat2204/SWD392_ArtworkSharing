@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Repository.Interface;
 using Services.Extensions;
 using Services.Interface;
+using DataAccessLayer.DTOs.ResponseDTO;
 
 namespace SWD392.Controllers;
 
@@ -16,16 +17,18 @@ namespace SWD392.Controllers;
 public class ArtworkController : Controller
 {
     private readonly IArtworkService _artworkService;
+    private readonly IUserService _userService;
     private readonly IMapper _mapper;
     private readonly IAzureService _azureService;
     private readonly IRatingService _ratingService;
 
-    public ArtworkController(IArtworkService artworkService, IMapper mapper, IAzureService azureService, IRatingService ratingService)
+    public ArtworkController(IArtworkService artworkService, IUserService userService, IMapper mapper, IAzureService azureService, IRatingService ratingService)
     {
         _artworkService = artworkService;
         _mapper = mapper;
         _azureService = azureService;
         _ratingService = ratingService;
+        _userService = userService;
     }
 
     [HttpGet("get-all-artworks")]
@@ -33,7 +36,7 @@ public class ArtworkController : Controller
     {
         var artworks = _artworkService.GetAll();
         if (!artworks.Any())
-            return NotFound();
+            return Ok("No artworks found");
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
         return Ok(mappedArtworks);
     }
@@ -43,7 +46,7 @@ public class ArtworkController : Controller
     {
         var artworks = _artworkService.GetAllByUserId(id);
         if (!artworks.Any())
-            return NotFound();
+            return Ok("No artworks found");
         var mappedArtworks = artworks.Select(p => _mapper.Map<ArtworkDTO>(p)).ToList();
         return Ok(mappedArtworks);
     }
@@ -53,8 +56,13 @@ public class ArtworkController : Controller
     {
         var artwork = _artworkService.GetAll().Find(x => x.Id.Equals(id));
         if (artwork == null)
-            return NotFound();
+             return Ok("No artworks found");
+        var creator = _userService.GetAllCreator().Find(x => x.Id.Equals(artwork.UserId));
+        var mappedCreator = _mapper.Map<UserDTO>(creator);
+
+           
         var mappedArtworks = _mapper.Map<ArtworkDTO>(artwork);
+        mappedArtworks.Creator = mappedCreator;
         return Ok(mappedArtworks);
     }
 
@@ -64,26 +72,32 @@ public class ArtworkController : Controller
     {
         var userId = User.Identities.FirstOrDefault()?.Claims.FirstOrDefault(x => x.Type == "userId")?.Value ?? string.Empty;
 
-        var imageUrls = new List<string?>();
-        var imageExtension = ImageExtension.ImageExtensionChecker(uploadArtworkDto.ImageUploadRequest.FileName);
-        var uri = (await _azureService.UploadImage(uploadArtworkDto.ImageUploadRequest, null, "post", imageExtension, false))?.Blob.Uri;
-        imageUrls.Add(uri);
-
-        var createdArtwork = new Artwork()
+        if (_artworkService.CheckSubscriptionForUpload(Int32.Parse(userId)))
         {
-            UserId = Int32.Parse(userId),
-            CreatedDate = DateTime.Now,
-            Name = uploadArtworkDto.Name,
-            Description = uploadArtworkDto.Description,
-            Price = uploadArtworkDto.Price,
-            TypeId = uploadArtworkDto.TypeId,
-            ArtworkStatus = uploadArtworkDto.ArtworkStatus,
-            IsDeleted = false,
-            ImagePath = imageUrls[0],
-        };
+            var imageUrls = new List<string?>();
+            var imageExtension = ImageExtension.ImageExtensionChecker(uploadArtworkDto.ImageUploadRequest.FileName);
+            var uri = (await _azureService.UploadImage(uploadArtworkDto.ImageUploadRequest, null, "post", imageExtension, false))?.Blob.Uri;
+            imageUrls.Add(uri);
 
-        _artworkService.Add(createdArtwork);
-        return Ok();
+            var createdArtwork = new Artwork()
+            {
+                UserId = Int32.Parse(userId),
+                CreatedDate = DateTime.Now,
+                Name = uploadArtworkDto.Name,
+                Description = uploadArtworkDto.Description,
+                Price = uploadArtworkDto.Price,
+                TypeId = uploadArtworkDto.TypeId,
+                ArtworkStatus = uploadArtworkDto.ArtworkStatus,
+                IsDeleted = false,
+                ImagePath = imageUrls[0],
+            };
+            _artworkService.Add(createdArtwork);
+            return Ok(createdArtwork);
+        }
+        else
+        {
+            return BadRequest("You don't have a subscription or you have reached your upload limit for today or you have exceeded your total upload limit");
+        }
     }
 
     [Authorize(Roles = "Creator")]
@@ -93,11 +107,11 @@ public class ArtworkController : Controller
         var existingArtwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
         if (id == 0)
         {
-            return BadRequest();
+            return BadRequest("Id must not be 0");
         }
         if (existingArtwork == null)
         {
-            return NotFound();
+            return Ok("No artworks found");
         }
 
         existingArtwork.Name = updateArtworkDto.Name;
@@ -110,18 +124,34 @@ public class ArtworkController : Controller
         return NoContent();
     }
 
+    /*    [HttpDelete("delete-artwork/{id}")]
+        public async Task<IActionResult> DeleteArtwork(int id)
+        {
+            var artwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
+            if (artwork == null)
+            {
+                return NotFound();
+            }
+            _artworkService.Remove(artwork);
+            return NoContent();
+        }*/
+
     [HttpDelete("delete-artwork/{id}")]
     public async Task<IActionResult> DeleteArtwork(int id)
     {
-        var artwork = _artworkService.GetAll().FirstOrDefault(a => a.Id == id);
-        if (artwork == null)
+        var result = _artworkService.DeleteByArtwork(id);
+        if (result)
         {
-            return NotFound();
+            return Ok();
         }
-        _artworkService.Remove(artwork);
-        return NoContent();
+        else
+        {
+            return BadRequest();
+        }
     }
-    
+
+
+
     [HttpPost("search-by-tags")]
     public async Task<IActionResult> SearchByTags([FromBody]SearchByTagsDTO tags)
     {

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using DataAccessLayer.DTOs.RequestDTO;
 using Services.Extensions;
 using AutoMapper;
+using DataAccessLayer.DTOs.ResponseDTO;
+using Microsoft.AspNetCore.Http;
 
 namespace Services.Services
 {
@@ -16,13 +18,17 @@ namespace Services.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly TokenService _tokenService;
+        private readonly ITokenService _tokenService;
+        private readonly IAzureService _azureService;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, TokenService tokenService)
+        public UserService(IUserRepository userRepository, IMapper mapper, ITokenService tokenService,
+            IAzureService azureService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _tokenService = tokenService;
+            _azureService = azureService;
         }
 
         public ResponseDTO<string> Login(LoginDTO dto)
@@ -47,6 +53,11 @@ namespace Services.Services
         public User GetById(int id)
         {
             return _userRepository.GetById(id);
+        }
+
+        public int GetIdByEmail(string email)
+        {
+            return _userRepository.GetIdByEmail(email);
         }
 
         public ResponseDTO<string> Register(RegisterDTO dto)
@@ -78,9 +89,32 @@ namespace Services.Services
             };
         }
 
+        public string GetNameByEmail(string email)
+        {
+            return _userRepository.GetNameByEmail(email);
+        }
+
         public List<User> GetAllCreator()
         {
             return _userRepository.GetAllCreator().ToList();
+        }
+
+        public List<User> GetAllUsers()
+        {
+            return _userRepository.GetAllUsers().ToList();
+        }
+
+        public bool UpdateProfile(User user)
+        {
+            try
+            {
+                _userRepository.Update(user);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

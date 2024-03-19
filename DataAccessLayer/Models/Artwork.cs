@@ -30,7 +30,7 @@ namespace DataAccessLayer.Models
         public ArtworkType? ArtworkType { get; set; }
 
         public ICollection<Report>? Reports { get; set; }
-        public ICollection<Tag>? Tags { get; set; }
+        public virtual ICollection<ArtworkTag> ArtworkTags { get; set; }
         public ICollection<Rating>? Ratings { get; set; }
         public ICollection<Reservation>? Reservations { get; set; }
 
