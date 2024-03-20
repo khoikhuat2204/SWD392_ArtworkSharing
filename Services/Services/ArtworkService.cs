@@ -23,6 +23,10 @@ namespace Services.Services
             _ratingRepository = ratingRepository;
         }
 
+        public List<Artwork> GetAllByArtworkType(int typeId)
+        {
+            return _artworkRepository.GetAllByArtworkType(typeId).ToList();
+        }
         public List<Artwork> GetAll()
         {
             return _artworkRepository.GetAll().ToList();
@@ -139,11 +143,6 @@ namespace Services.Services
         public bool SellArtwork(Artwork artwork)
         {
             return _artworkRepository.MarkAsSold(artwork);
-        }
-
-        public List<Artwork> GetAllByArtworkType(int typeId)
-        {
-            return _artworkRepository.GetAllByArtworkType(typeId).ToList();
         }
 
         public List<Artwork> GetAllByArtworkName(string artworkName)
