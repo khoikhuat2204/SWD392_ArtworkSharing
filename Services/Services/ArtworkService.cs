@@ -109,7 +109,7 @@ namespace Services.Services
             {
                 return false;
             }
-
+            
             if (allArtworks.Count() >= subscription.Package.TotalUploads)
             {
                 return false;
@@ -140,5 +140,14 @@ namespace Services.Services
             return _artworkRepository.GetAllByUserId(id).ToList();
         }
 
+        public bool SellArtwork(Artwork artwork)
+        {
+            return _artworkRepository.MarkAsSold(artwork);
+        }
+
+        public List<Artwork> GetAllByArtworkName(string artworkName)
+        {
+            return _artworkRepository.GetAllByArtworkName(artworkName).ToList();
+        }
     }
 }

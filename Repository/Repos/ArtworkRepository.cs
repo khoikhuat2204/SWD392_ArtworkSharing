@@ -28,12 +28,23 @@ namespace Repository.Repos
 
         public IQueryable<Artwork> SearchByTags(List<int> tagIds)
         {
-            var artworks = GetAll().Include(x => x.Tags).ToList();
+            var artworks = GetAll().Include(x => x.ArtworkTags).ToList();
             foreach (var tagId in tagIds)
             {
-                artworks = artworks.Where(a => a.Tags != null && a.Tags.Any(t => t.Id == tagId)).ToList();
+                artworks = artworks.Where(a => a.ArtworkTags.Any(t => t.TagId == tagId)).ToList();
             }
             return artworks.AsQueryable();
+        }
+
+        public bool MarkAsSold(Artwork artwork) 
+        {
+            artwork.ArtworkStatus = DataAccessLayer.Enum.ArtworkStatus.Sold;
+            return Update(artwork);
+        }
+
+        public IQueryable<Artwork> GetAllByArtworkName(string artworkName)
+        {
+            return GetAll().Where(x => x.Name.Contains(artworkName));
         }
     }
 }

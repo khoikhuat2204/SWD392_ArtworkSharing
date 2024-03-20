@@ -10,5 +10,7 @@ namespace Repository.Interface
         IQueryable<Artwork> GetAllByArtworkType(int typeId);
         IQueryable<Artwork> SearchByTags(List<int> tagIds);
         IQueryable<Artwork> SearchByName(string name);
+        IQueryable<Artwork> GetAllByArtworkName(string artworkName);
+        public bool MarkAsSold(Artwork artwork);
     }
 }
