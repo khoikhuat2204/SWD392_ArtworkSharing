@@ -6,6 +6,8 @@ namespace Services.Interface
     public interface IArtworkService
     {
         public List<Artwork> GetAll();
+        public List<Artwork> GetAllByArtworkType(int typeId);
+
         public List<Artwork> GetAllByUserId(int id);
         public void Add(Artwork artwork);
         public bool Update(Artwork artwork);

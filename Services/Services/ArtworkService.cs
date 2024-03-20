@@ -23,6 +23,10 @@ namespace Services.Services
             _ratingRepository = ratingRepository;
         }
 
+        public List<Artwork> GetAllByArtworkType(int typeId)
+        {
+            return _artworkRepository.GetAllByArtworkType(typeId).ToList();
+        }
         public List<Artwork> GetAll()
         {
             return _artworkRepository.GetAll().ToList();

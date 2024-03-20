@@ -11,6 +11,10 @@ namespace Repository.Repos
         {
             return GetAll().Where(x => x.UserId == id);
         }
+        public IQueryable<Artwork> GetAllByArtworkType(int typeId)
+        {
+            return GetAll().Where(x => x.TypeId.Equals(typeId));
+        }
 
         public Artwork? GetById(int id)
         {
